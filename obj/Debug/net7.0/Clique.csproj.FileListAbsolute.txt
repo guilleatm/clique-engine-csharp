@@ -1,0 +1,14 @@
+/home/guille/Documentos/programs/c#/Clique/bin/Debug/net7.0/Clique
+/home/guille/Documentos/programs/c#/Clique/bin/Debug/net7.0/Clique.deps.json
+/home/guille/Documentos/programs/c#/Clique/bin/Debug/net7.0/Clique.runtimeconfig.json
+/home/guille/Documentos/programs/c#/Clique/bin/Debug/net7.0/Clique.dll
+/home/guille/Documentos/programs/c#/Clique/bin/Debug/net7.0/Clique.pdb
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/Clique.GeneratedMSBuildEditorConfig.editorconfig
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/Clique.AssemblyInfoInputs.cache
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/Clique.AssemblyInfo.cs
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/Clique.csproj.CoreCompileInputs.cache
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/Clique.dll
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/refint/Clique.dll
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/Clique.pdb
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/Clique.genruntimeconfig.cache
+/home/guille/Documentos/programs/c#/Clique/obj/Debug/net7.0/ref/Clique.dll
