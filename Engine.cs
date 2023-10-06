@@ -4,11 +4,18 @@ namespace CliqueEngine;
 
 public class Engine
 {
-	const int TARGET_FPS = 30;
+	const int TARGET_FPS = 60;
 	
+	public static Engine instance = null!;
+
 	bool run = false;
 	RenderingServer renderingServer = null!;
 	List<Node> resources = new List<Node>();
+
+	public Engine()
+	{
+		instance = this;
+	}
 
 	public void Start()
 	{
@@ -23,15 +30,12 @@ public class Engine
 
 		Console.WriteLine("Engine Start");
 
+		var mm = new MoveManager();
+		
 
-		Random r = new Random();
-
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < resources.Count; i++)
 		{
-			int x = r.Next(600);
-			int y = r.Next(600);;
-
-			Renderable renderable = new Renderable("assets/frog_square_32x32.png", new Vector2f(x, y), new Vector2f(32, 32));
+			resources[i].Start();
 		}
 
 		
@@ -43,7 +47,7 @@ public class Engine
 
 			if (delta >= TARGET_DELTA)
 			{
-				Update(delta);
+				Update(delta / 1000f);
 				lastFrameTicks = currentTicks;
 			}
 			else
@@ -54,9 +58,19 @@ public class Engine
 		}
 	}
 
+	float DELETE_timer = 0;
+
 	void Update(float delta)
 	{
-		Console.WriteLine("Engine Update");
+		// Console.WriteLine("Engine Update");
+
+		DELETE_timer += delta;
+
+		if (DELETE_timer > 1f)
+		{
+			DELETE_timer = 0;
+			Console.WriteLine($"FPS: {1f / delta}");
+		}
 
 		HandleSDLEvents();
 
@@ -82,5 +96,9 @@ public class Engine
 		}
 	}
 
+	public void AddResource(Node behaviour)
+	{
+		resources.Add(behaviour);
+	}
 
 }

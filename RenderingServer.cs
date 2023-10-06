@@ -50,9 +50,11 @@ public class RenderingServer
 			SDL.SDL_RenderCopy(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
 		}
 
-		SDL.SDL_RenderPresent(SDLRenderer);
-	}
 
+		SDL.SDL_RenderPresent(SDLRenderer);
+		SDL.SDL_RenderClear(SDLRenderer);
+
+	}
 
 	public void CreateResource(Renderable renderable, string path, out nint texture)
 	{

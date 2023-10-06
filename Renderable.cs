@@ -9,7 +9,7 @@ public class Renderable : Node
 	public nint texture;
 
 
-	public Renderable(string path, Vector2f position, Vector2f size)
+	public Renderable(string path, Vector2f position, Vector2f size) : base()
 	{
 		this.position = position;
 		this.size = size;
