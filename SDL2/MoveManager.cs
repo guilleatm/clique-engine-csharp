@@ -7,7 +7,7 @@ public class MoveManager : Node
 		Console.WriteLine("MoveManager start");
 		Random r = new Random();
 
-		for (int i = 0; i < 1500; i++)
+		for (int i = 0; i < 2000; i++)
 		{
 			int x = r.Next(600);
 			int y = r.Next(600);;

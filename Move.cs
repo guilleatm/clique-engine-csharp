@@ -37,3 +37,25 @@ public class Move : Renderable
 		position += dir;
 	}
 }
+
+
+unsafe public class Test
+{
+	public TestData* data;
+
+	public Test(TestData* ptr)
+	{
+		data = ptr;
+	}
+
+	public void Perform()
+	{
+		Console.WriteLine("HI");
+	}
+}
+
+public struct TestData
+{
+	public Vector2f position;
+	public Vector2f size;
+}

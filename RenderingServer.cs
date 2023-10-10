@@ -23,29 +23,22 @@ public class RenderingServer
 		SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 	}
 
+	void _updateRect(ref SDL.SDL_Rect rect, int x, int y, int w, int h)
+	{
+		rect.x = x;	rect.y = y;
+		rect.w = w;	rect.h = h;
+	}
+
 	public void Render()
 	{
-		SDL.SDL_Rect destinationRect;
-		SDL.SDL_Rect sourceRect;
+		SDL.SDL_Rect destinationRect = new SDL.SDL_Rect();
+		SDL.SDL_Rect sourceRect = new SDL.SDL_Rect();
 		for (int i = 0; i < resources.Count(); i++)
 		{
 			Renderable r = resources[i];
-			destinationRect = new SDL.SDL_Rect()
-			{
-				x = (int) r.position.x,
-				y = (int) r.position.y,
-				w = (int) r.size.x,
-				h = (int) r.size.y,
-			};
-
-			sourceRect = new SDL.SDL_Rect()
-			{
-				x = 0,
-				y = 0,
-				w = (int) r.size.x,
-				h = (int) r.size.y,
-			};
-
+			
+			_updateRect(ref destinationRect, (int) r.position.x, (int) r.position.y, (int) r.size.x, (int) r.size.y);
+			_updateRect(ref sourceRect, 0, 0, (int) r.size.x, (int) r.size.y);
 
 			SDL.SDL_RenderCopy(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
 		}
@@ -53,7 +46,6 @@ public class RenderingServer
 
 		SDL.SDL_RenderPresent(SDLRenderer);
 		SDL.SDL_RenderClear(SDLRenderer);
-
 	}
 
 	public void CreateResource(Renderable renderable, string path, out nint texture)
