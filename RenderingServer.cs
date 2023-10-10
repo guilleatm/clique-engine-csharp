@@ -17,13 +17,21 @@ public class RenderingServer
 	
 		const int WINDOW_SIZE = 600;
 
-		SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING); // #C
+		SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
 
-		window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
-		SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+		SDL.SDL_CreateWindowAndRenderer(WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS, out window, out SDLRenderer);
+
+		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
+		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 	}
 
 	void _updateRect(ref SDL.SDL_Rect rect, int x, int y, int w, int h)
+	{
+		rect.x = x;	rect.y = y;
+		rect.w = w;	rect.h = h;
+	}
+
+	void _updateRect(ref SDL.SDL_FRect rect, float x, float y, float w, float h)
 	{
 		rect.x = x;	rect.y = y;
 		rect.w = w;	rect.h = h;
@@ -41,6 +49,7 @@ public class RenderingServer
 			_updateRect(ref sourceRect, 0, 0, (int) r.size.x, (int) r.size.y);
 
 			SDL.SDL_RenderCopy(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
+			//SDL.SDL_RenderCopyF(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
 		}
 
 

@@ -22,7 +22,7 @@ public class MoveManager : Node
 	{
 		timer += delta;
 
-		if (timer > 1f)
+		if (timer > 0f)
 		{
 			timer = 0;
 			Console.WriteLine($"FPS: {1f / delta}");

@@ -19,10 +19,9 @@ public class Engine
 
 	public void Start()
 	{
-		const float TARGET_DELTA = 1000f / TARGET_FPS;
+		const int TARGET_ELAPSED_MS = 1000 / TARGET_FPS;
 
-		uint lastFrameTicks = 0;
-
+		SDL.SDL_Init(SDL.SDL_INIT_EVENTS);
 		renderingServer = new RenderingServer();
 
 
@@ -38,22 +37,23 @@ public class Engine
 			resources[i].Start();
 		}
 
-		
+		uint lastFrameStart_ms = 0;
+
 		run = true;
 		while ( run )
 		{
-			uint currentTicks = SDL.SDL_GetTicks();
-			uint delta = currentTicks - lastFrameTicks;
+			uint start_ms = SDL.SDL_GetTicks();
+			float delta = (start_ms - lastFrameStart_ms) / 1000f;
 
-			if (delta >= TARGET_DELTA)
+			Update(TARGET_ELAPSED_MS / 1000f);
+
+			lastFrameStart_ms = start_ms;
+
+			uint elapsed_ms = SDL.SDL_GetTicks() - start_ms;
+
+			if (elapsed_ms < TARGET_ELAPSED_MS)
 			{
-				Update(delta / 1000f);
-				lastFrameTicks = currentTicks;
-			}
-			else
-			{
-				// float d = target_delta - delta;
-				// SDL_Delay(d / 2);
+				SDL.SDL_Delay(TARGET_ELAPSED_MS - elapsed_ms);
 			}
 		}
 	}

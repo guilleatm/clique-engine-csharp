@@ -15,6 +15,8 @@ public class Renderable : Node
 		this.size = size;
 		RenderingServer.instance.CreateResource(this, path, out texture);
 
+		SDL.SDL_SetTextureBlendMode(texture, SDL.SDL_BlendMode.SDL_BLENDMODE_NONE);
+
 		RenderingServer.instance.AddResource(this);
 	}
 
