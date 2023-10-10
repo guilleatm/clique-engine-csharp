@@ -2,6 +2,8 @@
 
 public class MoveManager : Node
 {
+	float timer = 0;
+
 	public override void Start()
 	{
 		Console.WriteLine("MoveManager start");
@@ -18,6 +20,12 @@ public class MoveManager : Node
 
 	public override void Update(float delta)
 	{
-		// Console.WriteLine("manager update");
+		timer += delta;
+
+		if (timer > 1f)
+		{
+			timer = 0;
+			Console.WriteLine($"FPS: {1f / delta}");
+		}
 	}
 }

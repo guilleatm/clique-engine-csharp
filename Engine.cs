@@ -58,19 +58,9 @@ public class Engine
 		}
 	}
 
-	float DELETE_timer = 0;
-
 	void Update(float delta)
 	{
 		// Console.WriteLine("Engine Update");
-
-		DELETE_timer += delta;
-
-		if (DELETE_timer > 1f)
-		{
-			DELETE_timer = 0;
-			Console.WriteLine($"FPS: {1f / delta}");
-		}
 
 		HandleSDLEvents();
 
