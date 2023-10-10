@@ -45,7 +45,7 @@ public class Engine
 			uint start_ms = SDL.SDL_GetTicks();
 			float delta = (start_ms - lastFrameStart_ms) / 1000f;
 
-			Update(TARGET_ELAPSED_MS / 1000f);
+			Update(delta);
 
 			lastFrameStart_ms = start_ms;
 

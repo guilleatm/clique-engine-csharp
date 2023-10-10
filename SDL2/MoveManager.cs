@@ -9,7 +9,7 @@ public class MoveManager : Node
 		Console.WriteLine("MoveManager start");
 		Random r = new Random();
 
-		for (int i = 0; i < 2000; i++)
+		for (int i = 0; i < 1200; i++)
 		{
 			int x = r.Next(600);
 			int y = r.Next(600);;
@@ -22,7 +22,7 @@ public class MoveManager : Node
 	{
 		timer += delta;
 
-		if (timer > 0f)
+		if (timer > 1f)
 		{
 			timer = 0;
 			Console.WriteLine($"FPS: {1f / delta}");
