@@ -2,13 +2,12 @@
 
 public abstract class Node
 {
-	public bool enabled = false;
-
-	public virtual void Start() {}
-	public virtual void Update( float delta ) {}
+	int ID;
 
 	public Node()
 	{
 		Engine.instance.AddResource(this);
+		ID = Engine.instance.nodeCount;
 	}
+	
 }

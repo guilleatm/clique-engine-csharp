@@ -1,6 +1,6 @@
 ﻿using CliqueEngine;
 
-public class MoveManager : Node
+public class MoveManager : Behaviour
 {
 	float timer = 0;
 
@@ -9,7 +9,7 @@ public class MoveManager : Node
 		Console.WriteLine("MoveManager start");
 		Random r = new Random();
 
-		for (int i = 0; i < 1200; i++)
+		for (int i = 0; i < 3000; i++)
 		{
 			int x = r.Next(600);
 			int y = r.Next(600);;

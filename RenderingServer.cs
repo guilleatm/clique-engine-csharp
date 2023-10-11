@@ -11,10 +11,13 @@ public class RenderingServer
 	List<Renderable> resources = new List<Renderable>();
 
 
-	public RenderingServer() /*: base (typeof(RenderingServer))*/
+	public RenderingServer()
 	{
 		instance = this;
-	
+	}
+
+	public void Start()
+	{
 		const int WINDOW_SIZE = 600;
 
 		SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
@@ -23,18 +26,6 @@ public class RenderingServer
 
 		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
 		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
-	}
-
-	void _updateRect(ref SDL.SDL_Rect rect, int x, int y, int w, int h)
-	{
-		rect.x = x;	rect.y = y;
-		rect.w = w;	rect.h = h;
-	}
-
-	void _updateRect(ref SDL.SDL_FRect rect, float x, float y, float w, float h)
-	{
-		rect.x = x;	rect.y = y;
-		rect.w = w;	rect.h = h;
 	}
 
 	public void Render()
@@ -57,14 +48,26 @@ public class RenderingServer
 		SDL.SDL_RenderClear(SDLRenderer);
 	}
 
-	public void CreateResource(Renderable renderable, string path, out nint texture)
+	public nint CreateTexture(Renderable renderable, string path)
 	{
-		texture = SDL_image.IMG_LoadTexture(SDLRenderer, path);
+		return SDL_image.IMG_LoadTexture(SDLRenderer, path);
 	}
 
 	public void AddResource(Renderable renderable)
 	{
 		resources.Add(renderable);
+	}
+
+	void _updateRect(ref SDL.SDL_Rect rect, int x, int y, int w, int h)
+	{
+		rect.x = x;	rect.y = y;
+		rect.w = w;	rect.h = h;
+	}
+
+	void _updateRect(ref SDL.SDL_FRect rect, float x, float y, float w, float h)
+	{
+		rect.x = x;	rect.y = y;
+		rect.w = w;	rect.h = h;
 	}
 
 	~RenderingServer()

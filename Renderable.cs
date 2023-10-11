@@ -2,7 +2,7 @@
 
 namespace CliqueEngine;
 
-public class Renderable : Node
+public class Renderable : Behaviour
 {
 	public Vector2f position;
 	public Vector2f size;
@@ -13,7 +13,7 @@ public class Renderable : Node
 	{
 		this.position = position;
 		this.size = size;
-		RenderingServer.instance.CreateResource(this, path, out texture);
+		this.texture = RenderingServer.instance.CreateTexture(this, path);
 
 		SDL.SDL_SetTextureBlendMode(texture, SDL.SDL_BlendMode.SDL_BLENDMODE_NONE);
 

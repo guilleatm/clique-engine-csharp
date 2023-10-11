@@ -10,11 +10,16 @@ public class Engine
 
 	bool run = false;
 	RenderingServer renderingServer = null!;
-	List<Node> resources = new List<Node>();
+	List<Node> nodes = new List<Node>();
+	List<Behaviour> behaviours = new List<Behaviour>();
+
+	public int nodeCount => nodes.Count;
 
 	public Engine()
 	{
 		instance = this;
+		renderingServer = new RenderingServer();
+
 	}
 
 	public void Start()
@@ -22,7 +27,8 @@ public class Engine
 		const int TARGET_ELAPSED_MS = 1000 / TARGET_FPS;
 
 		SDL.SDL_Init(SDL.SDL_INIT_EVENTS);
-		renderingServer = new RenderingServer();
+
+		renderingServer.Start();
 
 
 		// START
@@ -32,9 +38,12 @@ public class Engine
 		var mm = new MoveManager();
 		
 
-		for (int i = 0; i < resources.Count; i++)
+		for (int i = 0; i < behaviours.Count; i++)
 		{
-			resources[i].Start();
+			if (behaviours[i].enabled)
+			{
+				behaviours[i].Start();
+			}
 		}
 
 		uint lastFrameStart_ms = 0;
@@ -64,9 +73,12 @@ public class Engine
 
 		HandleSDLEvents();
 
-		for (int i = 0; i < resources.Count; i++)
+		for (int i = 0; i < behaviours.Count; i++)
 		{
-			resources[i].Update(delta);
+			if (behaviours[i].enabled)
+			{
+				behaviours[i].Update(delta);
+			}
 		}
 
 		renderingServer.Render();
@@ -86,9 +98,14 @@ public class Engine
 		}
 	}
 
-	public void AddResource(Node behaviour)
+	public void AddResource(Node node)
 	{
-		resources.Add(behaviour);
+		nodes.Add(node);
+	}
+
+	public void AddResource(Behaviour behaviour)
+	{
+		behaviours.Add(behaviour);
 	}
 
 }
