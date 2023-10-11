@@ -2,13 +2,13 @@
 
 namespace CliqueEngine;
 
-public class RenderingServer
+public unsafe class RenderingServer
 {
 	public static RenderingServer instance = null!;
 	nint window;
 	nint SDLRenderer;
 
-	List<Renderable> resources = new List<Renderable>();
+	Renderable*[] resources = new Renderable*[3000];
 
 
 	public RenderingServer() /*: base (typeof(RenderingServer))*/
@@ -41,14 +41,14 @@ public class RenderingServer
 	{
 		SDL.SDL_Rect destinationRect = new SDL.SDL_Rect();
 		SDL.SDL_Rect sourceRect = new SDL.SDL_Rect();
-		for (int i = 0; i < resources.Count(); i++)
+		for (int i = 0; i < resourcesCount; i++)
 		{
-			Renderable r = resources[i];
+			Renderable* r = resources[i];
 			
-			_updateRect(ref destinationRect, (int) r.position.x, (int) r.position.y, (int) r.size.x, (int) r.size.y);
-			_updateRect(ref sourceRect, 0, 0, (int) r.size.x, (int) r.size.y);
+			_updateRect(ref destinationRect, (int) r->position.x, (int) r->position.y, (int) r->size.x, (int) r->size.y);
+			_updateRect(ref sourceRect, 0, 0, (int) r->size.x, (int) r->size.y);
 
-			SDL.SDL_RenderCopy(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
+			SDL.SDL_RenderCopy(SDLRenderer, resources[i]->texture, ref sourceRect, ref destinationRect);
 			//SDL.SDL_RenderCopyF(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
 		}
 
@@ -62,9 +62,10 @@ public class RenderingServer
 		texture = SDL_image.IMG_LoadTexture(SDLRenderer, path);
 	}
 
-	public void AddResource(Renderable renderable)
+	int resourcesCount = 0;
+	public void AddResource(Renderable* renderable)
 	{
-		resources.Add(renderable);
+		resources[resourcesCount++] = renderable;
 	}
 
 	~RenderingServer()

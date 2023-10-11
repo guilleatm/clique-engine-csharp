@@ -29,13 +29,28 @@ public class Engine
 
 		Console.WriteLine("Engine Start");
 
-		var mm = new MoveManager();
-		
+		//var mm = new MoveManager();
 
-		for (int i = 0; i < resources.Count; i++)
+unsafe
+{
+
+		for (int i = 0; i < 3000; i++)
 		{
-			resources[i].Start();
+			Renderable r = new Renderable("assets/frog_square_32x32.png", new Vector2f(33, 53), new Vector2f(32, 32));
+
+			Node n = new Node();
+			n.AddComponent<Renderable>((int*) &r);
+
+			RenderingServer.instance.AddResource(&r);
 		}
+
+
+}
+
+		// for (int i = 0; i < resources.Count; i++)
+		// {
+		// 	resources[i].Start();
+		// }
 
 		uint lastFrameStart_ms = 0;
 
@@ -46,6 +61,8 @@ public class Engine
 			float delta = (start_ms - lastFrameStart_ms) / 1000f;
 
 			Update(delta);
+
+			Console.WriteLine(1f / delta);
 
 			lastFrameStart_ms = start_ms;
 
@@ -64,10 +81,10 @@ public class Engine
 
 		HandleSDLEvents();
 
-		for (int i = 0; i < resources.Count; i++)
-		{
-			resources[i].Update(delta);
-		}
+		// for (int i = 0; i < resources.Count; i++)
+		// {
+		// 	resources[i].Update(delta);
+		// }
 
 		renderingServer.Render();
 	}
