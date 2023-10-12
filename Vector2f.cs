@@ -13,6 +13,11 @@ public struct Vector2f
 		this.y = y;
 	}
 
+	public Vector2f Scale(Vector2f s)
+	{
+		return new Vector2f(x * s.x, y * s.y);
+	}
+
 	public static Vector2f operator +(Vector2f v1, Vector2f v2)
 	{
 		return new Vector2f(v1.x + v2.x, v1.y + v2.y);

@@ -36,13 +36,16 @@ public class RenderingServer
 
 		UIRoot = new UIRoot(SDLRenderer, Vector2f.one * WINDOW_SIZE);
 
+		var l = new UILayout();
+
+		l.parent = UIRoot;
 
 		var c = new UIContent(Vector2f.one * 200f);
 
-		c.parent = UIRoot;
+		c.parent = l;
 
 		c = new UIContent(Vector2f.one * 200f);
-		c.parent = UIRoot;
+		c.parent = l;
 
 		//UIRoot.children.Add(c);
 
