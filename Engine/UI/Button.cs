@@ -33,7 +33,6 @@ public class Button : UIContent
 	
 		for (int i = 0; i < children.Count; i++)
 		{
-			children[i].position = position + size;
 			children[i].Render();
 		}
 	}

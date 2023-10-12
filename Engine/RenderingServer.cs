@@ -10,9 +10,7 @@ public class RenderingServer
 	nint window;
 	nint SDLRenderer;
 
-	UIRoot UIRoot;
-	nint UIFont;
-
+	UIRoot UIRoot = null!;
 
 	List<Renderable> renderables = new List<Renderable>();
 
@@ -44,7 +42,7 @@ public class RenderingServer
 		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
 		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
-		UIRoot = new UIRoot(SDLRenderer, Vector2f.one * WINDOW_SIZE);
+		UIRoot = new UIRoot(SDLRenderer);
 
 		Editor.HierarchyUI h = new Editor.HierarchyUI() { parent = UIRoot };
 

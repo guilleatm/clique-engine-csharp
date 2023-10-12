@@ -16,26 +16,17 @@ public class UIRoot : UIElement
 		set => throw new InvalidOperationException($"Trying to set {nameof(parent)} of {nameof(UIRoot)}.");
 	}
 
-	Vector2f _size;
-	public override Vector2f size
-	{
-		get => _size;
-		set
-		{
-			SDL.SDL_Rect s = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.zero);
-			for (int i = 0; i < children.Count; i++)
-			{
-				s.Overlap(children[i].rect);
-			}
-			_size = new Vector2f(s.w, s.h);
-		}
+	public override Vector2f position
+	{ 
+		get => Vector2f.zero;
 	}
 
-	public UIRoot(nint _SDLRenderer, Vector2f size)
+
+	public UIRoot(nint _SDLRenderer)
 	{
 		SDLRenderer = _SDLRenderer;
-		this.position = Vector2f.zero;
-		this.size = size;
+		this.localPosition = Vector2f.zero;
+		this.size = Vector2f.zero;
 
 		SDL_ttf.TTF_Init();
 		UIFont = SDL_ttf.TTF_OpenFont("assets/fonts/Hack-Regular.ttf", UI_FONT_SIZE);

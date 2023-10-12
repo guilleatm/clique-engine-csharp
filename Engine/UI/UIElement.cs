@@ -5,50 +5,44 @@ namespace CliqueEngine.UI;
 
 public abstract class UIElement
 {
-	UIElement _parent = null!;
+	public List<UIElement> children { get; private set; } = new List<UIElement>();
+	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
+
+
+	protected UIElement _parent = null!;
 	public virtual UIElement parent
 	{
 		get => _parent;
 		set
 		{
-			if (_parent != null)
-			{
-				_parent.children.Remove(this);
-			}
 			_parent = value;
-			_parent.children.Add(this);
-			_parent.size = Vector2f.one; // Updates parent.size
+			_parent.AddChildren(this);
 		}
 	}
-
-	public List<UIElement> children { get; private set; } = new List<UIElement>();
-
-	Vector2f _size;
+	protected Vector2f _size;
 	public virtual Vector2f size
 	{
 		get => _size;
-		set
+		set => _size = value;
+	}
+
+
+	public Vector2f localPosition { get; set; }
+	public virtual Vector2f position
+	{ 
+		get
 		{
-			SDL.SDL_Rect r = new SDL.SDL_Rect().From(position, Vector2f.zero);
-
-			for (int i = 0; i < children.Count; i++)
-			{
-				r = r.Overlap(children[i].rect);
-			}
-
-			_size = new Vector2f(r.w, r.h);
-
-			if (parent != null)
-			{
-				parent.size = default; // Updates parent size
-			}
+			if (parent == null) return Vector2f.zero;
+			return parent.position + localPosition;
 		}
 	}
-	public Vector2f position { get; set; }
-	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
+
+
 
 	public virtual void Render()
 	{
+		_renderRect(Color.green);
+
 		for (int i = 0; i < children.Count; i++)
 		{
 			children[i].Render();
@@ -62,6 +56,27 @@ public abstract class UIElement
 		for (int i = children.Count - 1; i >= 0; i--)
 		{
 			children[i].Free();
+		}
+	}
+
+	public virtual void AddChildren(UIElement child)
+	{
+		child.localPosition = Vector2f.zero;
+		children.Add(child);
+	}
+
+	void UpdateSize()
+	{
+		SDL.SDL_Rect r = new SDL.SDL_Rect().From(position, Vector2f.zero);
+		for (int i = 0; i < children.Count; i++)
+		{
+			r = r.Overlap(children[i].rect);
+		}
+		size = new Vector2f(r.w, r.h);
+
+		if (parent is not UIRoot)
+		{
+			parent.UpdateSize();
 		}
 	}
 

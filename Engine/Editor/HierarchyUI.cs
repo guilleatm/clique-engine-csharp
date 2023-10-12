@@ -37,11 +37,11 @@ class HierarchyUI : UIElement
 		{
 			int _index = i;
 
-			Button b = new Button($"{types[i].Name}");
+			Button b = new Button($"{types[i].Name}") { parent = nodeOptions };
 			b.onClick += () => CreateNode(types[_index]);
 			b.onClick += removeNodeOptionsUI;
-			b.parent = nodeOptions;
 		}
+
 	}
 
 	void CreateNode(Type type)
