@@ -8,8 +8,7 @@ public class RenderingServer
 	nint window;
 	nint SDLRenderer;
 
-	List<Renderable> resources = new List<Renderable>();
-
+	List<Renderable> renderables = new List<Renderable>();
 
 	public RenderingServer()
 	{
@@ -22,7 +21,10 @@ public class RenderingServer
 
 		SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
 
-		SDL.SDL_CreateWindowAndRenderer(WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS, out window, out SDLRenderer);
+		SDL.SDL_WindowFlags windowFlags = 	SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS |
+											SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
+
+		SDL.SDL_CreateWindowAndRenderer(WINDOW_SIZE, WINDOW_SIZE, windowFlags, out window, out SDLRenderer);
 
 		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
 		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
@@ -32,14 +34,14 @@ public class RenderingServer
 	{
 		SDL.SDL_Rect destinationRect = new SDL.SDL_Rect();
 		SDL.SDL_Rect sourceRect = new SDL.SDL_Rect();
-		for (int i = 0; i < resources.Count(); i++)
+		for (int i = 0; i < renderables.Count(); i++)
 		{
-			Renderable r = resources[i];
+			Renderable r = renderables[i];
 			
 			_updateRect(ref destinationRect, (int) r.position.x, (int) r.position.y, (int) r.size.x, (int) r.size.y);
 			_updateRect(ref sourceRect, 0, 0, (int) r.size.x, (int) r.size.y);
 
-			SDL.SDL_RenderCopy(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
+			SDL.SDL_RenderCopy(SDLRenderer, renderables[i].texture, ref sourceRect, ref destinationRect);
 			//SDL.SDL_RenderCopyF(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
 		}
 
@@ -55,7 +57,7 @@ public class RenderingServer
 
 	public void AddResource(Renderable renderable)
 	{
-		resources.Add(renderable);
+		renderables.Add(renderable);
 	}
 
 	void _updateRect(ref SDL.SDL_Rect rect, int x, int y, int w, int h)

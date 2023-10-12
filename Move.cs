@@ -3,6 +3,8 @@
 public class Move : Renderable
 {
 
+	int width = 600;
+	int height = 600;
 	public Move(string path, Vector2f size, Vector2f position) : base(path, size, position)
 	{
 
@@ -14,6 +16,9 @@ public class Move : Renderable
 		vel = r.Next(1, 10) / 5f;
 		dir = new Vector2f(1, 1) * vel;
 
+		Engine.instance.onWindowResized += (int w, int h) => { width = w; height = h; };
+
+
 	}
 
 	Vector2f dir;
@@ -22,12 +27,12 @@ public class Move : Renderable
 
 	public override void Update(float delta)
 	{
-		if (position.x > 600 || position.x < 0)
+		if (position.x > width || position.x < 0)
 		{
 			dir.x *= -1;
 		}
 
-		if (position.y > 600 || position.y < 0)
+		if (position.y > height || position.y < 0)
 		{
 			dir.y *= -1;
 		}

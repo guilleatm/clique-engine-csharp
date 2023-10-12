@@ -8,7 +8,6 @@ public class Renderable : Behaviour
 	public Vector2f size;
 	public nint texture;
 
-
 	public Renderable(string path, Vector2f position, Vector2f size) : base()
 	{
 		this.position = position;

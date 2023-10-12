@@ -4,18 +4,26 @@ public class MoveManager : Behaviour
 {
 	float timer = 0;
 
+
+
 	public override void Start()
 	{
+
 		Console.WriteLine("MoveManager start");
 		Random r = new Random();
 
-		for (int i = 0; i < 3000; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			int x = r.Next(600);
 			int y = r.Next(600);;
 
 			Move m = new Move("assets/frog_square_32x32.png", new Vector2f(x, y), new Vector2f(32, 32));
 		}
+	}
+
+	void SayBy()
+	{
+		Console.WriteLine("Quitting");
 	}
 
 	public override void Update(float delta)

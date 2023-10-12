@@ -2,7 +2,7 @@
 
 namespace CliqueEngine;
 
-public class Engine
+public partial class Engine
 {
 	const int TARGET_FPS = 60;
 	
@@ -27,16 +27,13 @@ public class Engine
 		const int TARGET_ELAPSED_MS = 1000 / TARGET_FPS;
 
 		SDL.SDL_Init(SDL.SDL_INIT_EVENTS);
-
 		renderingServer.Start();
-
 
 		// START
 
 		Console.WriteLine("Engine Start");
 
 		var mm = new MoveManager();
-		
 
 		for (int i = 0; i < behaviours.Count; i++)
 		{
@@ -65,6 +62,9 @@ public class Engine
 				SDL.SDL_Delay(TARGET_ELAPSED_MS - elapsed_ms);
 			}
 		}
+
+		onEngineQuit?.Invoke();
+
 	}
 
 	void Update(float delta)
@@ -93,6 +93,13 @@ public class Engine
 			{
 				case SDL.SDL_EventType.SDL_QUIT:
 					run = false;
+					break;
+				case SDL.SDL_EventType.SDL_WINDOWEVENT:
+
+					if (@event.window.windowEvent == SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED)
+					{
+						onWindowResized?.Invoke(@event.window.data1, @event.window.data2);
+					}
 					break;
 			}
 		}
