@@ -1,7 +1,13 @@
 ﻿namespace CliqueEngine;
 
+
+// COMMON DELEGATES
+public delegate void Method();
+
+
 public partial class Engine
 {
+
 	public delegate void OnWindowResizedEventHandler(int width, int height);
 	public event OnWindowResizedEventHandler onWindowResized;
 

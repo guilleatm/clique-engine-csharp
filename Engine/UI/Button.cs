@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using SDL2;
 using CliqueEngine.Extensions;
+using CliqueEngine;
 
 namespace CliqueEngine.UI;
 
@@ -9,6 +10,8 @@ public class Button : UIContent
 	const int FONT_SIZE = 20;
 	string text;
 	nint texture;
+
+	public event Method onClick = null!;
 	
 	public Button(string text) : base(new Vector2f(text.Length, 1f) * FONT_SIZE)
 	{
@@ -35,13 +38,7 @@ public class Button : UIContent
 
 		if (rect.Contains(clickRect))
 		{
-			OnClick();
+			onClick?.Invoke();
 		}
 	}
-
-	void OnClick()
-	{
-
-	}
-
 }

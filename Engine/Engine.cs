@@ -12,6 +12,7 @@ public partial class Engine
 	RenderingServer renderingServer = null!;
 	List<Node> nodes = new List<Node>();
 	List<Behaviour> behaviours = new List<Behaviour>();
+	Queue<Behaviour> behavioursToStart = new Queue<Behaviour>();
 
 	public int nodeCount => nodes.Count;
 
@@ -33,15 +34,8 @@ public partial class Engine
 
 		Console.WriteLine("Engine Start");
 
-		var mm = new MoveManager();
 
-		for (int i = 0; i < behaviours.Count; i++)
-		{
-			if (behaviours[i].enabled)
-			{
-				behaviours[i].Start();
-			}
-		}
+		_startBehaviours();
 
 		uint lastFrameStart_ms = 0;
 
@@ -51,6 +45,7 @@ public partial class Engine
 			uint start_ms = SDL.SDL_GetTicks();
 			float delta = (start_ms - lastFrameStart_ms) / 1000f;
 
+			_startBehaviours();
 			Update(delta);
 
 			lastFrameStart_ms = start_ms;
@@ -65,6 +60,18 @@ public partial class Engine
 
 		onEngineQuit?.Invoke();
 
+	}
+
+	void _startBehaviours()
+	{
+		while( behavioursToStart.Count > 0)
+		{
+			Behaviour b = behavioursToStart.Dequeue();
+			if (b.enabled)
+			{
+				b.Start();
+			}
+		}
 	}
 
 	void Update(float delta)
@@ -124,6 +131,7 @@ public partial class Engine
 	public void AddResource(Behaviour behaviour)
 	{
 		behaviours.Add(behaviour);
+		behavioursToStart.Enqueue(behaviour);
 	}
 
 }

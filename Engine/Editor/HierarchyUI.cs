@@ -9,6 +9,7 @@ class HierarchyUI : UIElement
 		VerticalLayout verticalLayout = new VerticalLayout();
 
 		Button addNodeBtn = new Button("Create Node");
+		addNodeBtn.onClick += CreateNode;
 		addNodeBtn.parent = verticalLayout;
 
 		for (int i = 0; i < 10; i++)
@@ -18,5 +19,10 @@ class HierarchyUI : UIElement
 		}
 
 		verticalLayout.parent = this;
+	}
+
+	void CreateNode()
+	{
+		Move r = new Move("assets/frog_square_32x32.png", new Vector2f(0, 0), new Vector2f(32, 32));
 	}
 }
