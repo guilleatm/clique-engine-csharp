@@ -34,4 +34,14 @@ public abstract class UIElement
 			children[i].Render();
 		}
 	}
+
+	public virtual void Free()
+	{
+		parent.children.Remove(this);
+
+		for (int i = children.Count - 1; i >= 0; i--)
+		{
+			children[i].Free();
+		}
+	}
 }

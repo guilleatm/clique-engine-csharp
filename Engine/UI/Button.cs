@@ -9,7 +9,7 @@ public class Button : UIContent
 {
 	const int FONT_SIZE = 20;
 	string text;
-	nint texture;
+	nint textTexture;
 
 	public event Method onClick = null!;
 	
@@ -18,7 +18,7 @@ public class Button : UIContent
 		this.text = text;
 
 		nint surface = SDL_ttf.TTF_RenderText_Solid(UIRoot.UIFont, text, Color.white);
-		texture = SDL.SDL_CreateTextureFromSurface(UIRoot.SDLRenderer, surface);
+		textTexture = SDL.SDL_CreateTextureFromSurface(UIRoot.SDLRenderer, surface);
 
 		Engine.instance.onClick += HandleClickEvent;
 	}
@@ -29,7 +29,7 @@ public class Button : UIContent
 
 		SDL.SDL_Rect source = new SDL.SDL_Rect().From(Vector2f.zero, size);
 		SDL.SDL_Rect destination = new SDL.SDL_Rect().From(position, size);
-		SDL.SDL_RenderCopy(UIRoot.SDLRenderer, texture, ref source, ref destination);
+		SDL.SDL_RenderCopy(UIRoot.SDLRenderer, textTexture, ref source, ref destination);
 	}
 
 	void HandleClickEvent(Vector2f originPosition, Vector2f finalPosition)
@@ -40,5 +40,11 @@ public class Button : UIContent
 		{
 			onClick?.Invoke();
 		}
+	}
+
+	public override void Free()
+	{
+		onClick = null!;
+		base.Free();
 	}
 }

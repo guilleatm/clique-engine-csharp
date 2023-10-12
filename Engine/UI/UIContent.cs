@@ -5,9 +5,6 @@ namespace CliqueEngine.UI;
 
 public class UIContent : UIElement
 {
-	SDL.SDL_Color def = new SDL.SDL_Color() { r = 0, g = 0, b = 0, a = 255 }; // C#
-	SDL.SDL_Color ui = new SDL.SDL_Color() { r = 100, g = 100, b = 100, a = 200 };
-
 	Vector2f _size;
 	public override Vector2f size
 	{
@@ -29,11 +26,18 @@ public class UIContent : UIElement
 
 	public override void Render()
 	{
+		_renderRect();
+
+		base.Render();		
+	}
+
+	void _renderRect()
+	{
 		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
 
-		_setColor(ui);
+		_setColor(Color.grey);
 		SDL.SDL_RenderFillRect(UIRoot.SDLRenderer, ref rect);
-	    _setColor(def);
+	    _setColor(Color.black);
 	}
 
 	void _setColor(SDL.SDL_Color color)
