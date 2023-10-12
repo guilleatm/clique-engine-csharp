@@ -32,13 +32,13 @@ public class UIContent : UIElement
 		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
 
 		_setColor(ui);
-		SDL.SDL_RenderFillRect(SDLRenderer, ref rect);
+		SDL.SDL_RenderFillRect(UIRoot.SDLRenderer, ref rect);
 	    _setColor(def);
 	}
 
 	void _setColor(SDL.SDL_Color color)
 	{
-	    SDL.SDL_SetRenderDrawColor(SDLRenderer, color.r, color.g, color.b, color.a);
+	    SDL.SDL_SetRenderDrawColor(UIRoot.SDLRenderer, color.r, color.g, color.b, color.a);
 	}
 
 }

@@ -11,6 +11,7 @@ public class RenderingServer
 	nint SDLRenderer;
 
 	UIRoot UIRoot;
+	nint UIFont;
 
 
 	List<Renderable> renderables = new List<Renderable>();
@@ -30,21 +31,32 @@ public class RenderingServer
 											SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
 
 		SDL.SDL_CreateWindowAndRenderer(WINDOW_SIZE, WINDOW_SIZE, windowFlags, out window, out SDLRenderer);
+
+		string file = "assets/frog_square_32x32.png";
+		nint icon = SDL_image.IMG_Load(file);
+		if (icon == nint.Zero)
+		{
+			throw new FileNotFoundException($"File: {file} not found");
+		}
+		SDL.SDL_SetWindowIcon(window, icon);
+
 		
 		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
 		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
 		UIRoot = new UIRoot(SDLRenderer, Vector2f.one * WINDOW_SIZE);
 
+
+
 		var l = new UILayout();
 
 		l.parent = UIRoot;
 
-		var c = new UIContent(Vector2f.one * 200f);
+		UIContent c = new Button("Hello world");
 
 		c.parent = l;
 
-		c = new UIContent(Vector2f.one * 200f);
+		c = new Button("Esto es un botun loco");
 		c.parent = l;
 
 		//UIRoot.children.Add(c);

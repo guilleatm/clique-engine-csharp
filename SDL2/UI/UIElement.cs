@@ -5,11 +5,11 @@ namespace CliqueEngine.UI;
 
 public abstract class UIElement
 {
-	public virtual nint SDLRenderer
-	{
-		get => parent.SDLRenderer;
-		protected set { throw new InvalidOperationException($"Trying to set {nameof(SDLRenderer)} of {nameof(UIContent)}."); }
-	}
+	// public virtual nint SDLRenderer
+	// {
+	// 	get => parent.SDLRenderer;
+	// 	protected set { throw new InvalidOperationException($"Trying to set {nameof(SDLRenderer)} of {nameof(UIContent)}."); }
+	// }
 
 	UIElement _parent = null!;
 	public virtual UIElement parent
@@ -26,6 +26,7 @@ public abstract class UIElement
 			_parent.size = default; // Updates parent.size
 		}
 	}
+
 	public virtual List<UIElement> children { get; private set; } = new List<UIElement>();
 
 	public virtual Vector2f size { get; set; }
@@ -33,5 +34,17 @@ public abstract class UIElement
 	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
 
 	public abstract void Render();
+	public virtual bool HandleEvent(SDL.SDL_Event @event)
+	{
+		bool handled;
+		for (int i = 0; i < children.Count; i++)
+		{
+			handled = children[i].HandleEvent(@event);
+
+			if (handled) return true;
+		}
+
+		return false;
+	}
 
 }
