@@ -2,7 +2,7 @@
 
 public abstract class Node
 {
-	int ID;
+	public int ID;
 
 	public Node()
 	{

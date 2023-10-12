@@ -1,4 +1,5 @@
-﻿using SDL2;
+﻿using System.Dynamic;
+using SDL2;
 
 namespace CliqueEngine;
 
@@ -10,7 +11,7 @@ public partial class Engine
 
 	bool run = false;
 	RenderingServer renderingServer = null!;
-	List<Node> nodes = new List<Node>();
+	public List<Node> nodes { get; private set; } = new List<Node>();
 	List<Behaviour> behaviours = new List<Behaviour>();
 	Queue<Behaviour> behavioursToStart = new Queue<Behaviour>();
 
