@@ -18,14 +18,14 @@ public class UIContent : UIElement
 
 	public override void Render()
 	{
+		base.Render();
 		_renderRect(Color.grey);
-
-		base.Render();		
 	}
 
 	public override void AddChildren(UIElement child)
 	{
 		child.localPosition = size;
 		_parent.children.Add(child);
+		UpdateSize();
 	}
 }

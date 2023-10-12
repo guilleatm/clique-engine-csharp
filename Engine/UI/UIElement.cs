@@ -53,6 +53,8 @@ public abstract class UIElement
 	{
 		parent.children.Remove(this);
 
+		parent.UpdateSize();
+
 		for (int i = children.Count - 1; i >= 0; i--)
 		{
 			children[i].Free();
@@ -63,21 +65,22 @@ public abstract class UIElement
 	{
 		child.localPosition = Vector2f.zero;
 		children.Add(child);
+		UpdateSize();
 	}
 
-	void UpdateSize()
+	protected void UpdateSize()
 	{
-		SDL.SDL_Rect r = new SDL.SDL_Rect().From(position, Vector2f.zero);
+		SDL.SDL_Rect r = new SDL.SDL_Rect().From(localPosition, Vector2f.zero);
 		for (int i = 0; i < children.Count; i++)
 		{
-			r = r.Overlap(children[i].rect);
+			r = r.Overlap( new SDL.SDL_Rect().From(children[i].localPosition, children[i].size) );
 		}
 		size = new Vector2f(r.w, r.h);
 
-		if (parent is not UIRoot)
-		{
-			parent.UpdateSize();
-		}
+		if (this is UIRoot) return;
+
+		parent.UpdateSize();
+
 	}
 
 	protected void _renderRect(SDL.SDL_Color? color = null)

@@ -25,16 +25,13 @@ public class Button : UIContent
 
 	public override void Render()
 	{
-		//_renderRect();
+		base.Render();
+	
+		_renderRect(Color.grey);
 		
 		SDL.SDL_Rect source = new SDL.SDL_Rect().From(Vector2f.zero, size);
 		SDL.SDL_Rect destination = new SDL.SDL_Rect().From(position, size);
 		SDL.SDL_RenderCopy(UIRoot.SDLRenderer, textTexture, ref source, ref destination);
-	
-		for (int i = 0; i < children.Count; i++)
-		{
-			children[i].Render();
-		}
 	}
 
 	void HandleClickEvent(Vector2f originPosition, Vector2f finalPosition)

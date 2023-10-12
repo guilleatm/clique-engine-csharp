@@ -6,16 +6,16 @@ namespace CliqueEngine.Editor;
 class HierarchyUI : UIElement
 {
 	VerticalLayout verticalLayout;
-	Button addNodeBtn = new Button("Create Node");
+	Button addNodeBtn;
 
-	public HierarchyUI() : base()
+	public HierarchyUI(UIElement root) : base()
 	{
+		parent = root;
 
 		verticalLayout = new VerticalLayout() { parent = this };
+		addNodeBtn = new Button("Create Node") { parent = verticalLayout };
 
 		addNodeBtn.onClick += DisplayNodeTypes;
-		addNodeBtn.parent = verticalLayout;
-
 
 		List<Node> nodes = Engine.instance.nodes;
 		for (int i = 0; i < nodes.Count; i++)
@@ -30,7 +30,7 @@ class HierarchyUI : UIElement
 
 		Method removeNodeOptionsUI = () => nodeOptions.Free();
 
-		var types = new Type[] { typeof(WebHeaderCollection), typeof(Move), typeof(Renderable) };
+		var types = new Type[] { typeof(MoveManager), typeof(Move), typeof(Renderable) };
 		//var types = Assembly.GetExecutingAssembly().GetTypes();
 
 		for (int i = 0; i < types.Length; i++)
