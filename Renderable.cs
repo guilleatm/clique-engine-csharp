@@ -14,7 +14,7 @@ public class Renderable : Behaviour
 		this.size = size;
 		this.texture = RenderingServer.instance.CreateTexture(this, path);
 
-		SDL.SDL_SetTextureBlendMode(texture, SDL.SDL_BlendMode.SDL_BLENDMODE_NONE);
+		//SDL.SDL_SetTextureBlendMode(texture, SDL.SDL_BlendMode.SDL_BLENDMODE_NONE);
 
 		RenderingServer.instance.AddResource(this);
 	}

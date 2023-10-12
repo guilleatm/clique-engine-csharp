@@ -2,6 +2,8 @@
 
 public struct Vector2f
 {
+	public static Vector2f zero = new Vector2f(0, 0);
+	public static Vector2f one = new Vector2f(1f, 1f);
 	public float x;
 	public float y;
 

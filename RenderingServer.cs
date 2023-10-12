@@ -1,4 +1,6 @@
-﻿using SDL2;
+﻿using CliqueEngine.Extensions;
+using CliqueEngine.UI;
+using SDL2;
 
 namespace CliqueEngine;
 
@@ -7,6 +9,9 @@ public class RenderingServer
 	public static RenderingServer instance = null!;
 	nint window;
 	nint SDLRenderer;
+
+	UIRoot UIRoot;
+
 
 	List<Renderable> renderables = new List<Renderable>();
 
@@ -25,9 +30,31 @@ public class RenderingServer
 											SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
 
 		SDL.SDL_CreateWindowAndRenderer(WINDOW_SIZE, WINDOW_SIZE, windowFlags, out window, out SDLRenderer);
-
+		
 		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
 		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+
+		UIRoot = new UIRoot(SDLRenderer, Vector2f.one * WINDOW_SIZE);
+
+
+		var c = new UIContent(Vector2f.one * 200f);
+
+		c.parent = UIRoot;
+
+		c = new UIContent(Vector2f.one * 200f);
+		c.parent = UIRoot;
+
+		//UIRoot.children.Add(c);
+
+
+
+
+
+
+
+
+
+	
 	}
 
 	public void Render()
@@ -38,16 +65,37 @@ public class RenderingServer
 		{
 			Renderable r = renderables[i];
 			
-			_updateRect(ref destinationRect, (int) r.position.x, (int) r.position.y, (int) r.size.x, (int) r.size.y);
-			_updateRect(ref sourceRect, 0, 0, (int) r.size.x, (int) r.size.y);
+			destinationRect = destinationRect.From(r.position, r.size);
+			sourceRect = sourceRect.From(Vector2f.zero, r.size);
+			//_updateRect(ref destinationRect, (int) r.position.x, (int) r.position.y, (int) r.size.x, (int) r.size.y);
+			//_updateRect(ref sourceRect, 0, 0, (int) r.size.x, (int) r.size.y);
 
 			SDL.SDL_RenderCopy(SDLRenderer, renderables[i].texture, ref sourceRect, ref destinationRect);
 			//SDL.SDL_RenderCopyF(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
 		}
 
+		// var a = new SDL.SDL_Rect() {x = 0, y = 0, w = 100, h = 100};
+
+		// SDL.SDL_Color def = new SDL.SDL_Color() { r = 0, g = 0, b = 0, a = 255 };
+		// SDL.SDL_Color ui = new SDL.SDL_Color() { r = 100, g = 100, b = 100, a = 200 };
+
+
+		// SetColor(ui);
+		// SDL.SDL_RenderFillRect(SDLRenderer, ref a);
+	    // SetColor(def);
+
+
+		UIRoot.Render();
+
+
 
 		SDL.SDL_RenderPresent(SDLRenderer);
 		SDL.SDL_RenderClear(SDLRenderer);
+	}
+
+	void SetColor(SDL.SDL_Color color)
+	{
+	    SDL.SDL_SetRenderDrawColor(SDLRenderer, color.r, color.g, color.b, color.a);
 	}
 
 	public nint CreateTexture(Renderable renderable, string path)
