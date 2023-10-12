@@ -1,4 +1,7 @@
 ﻿using CliqueEngine;
+using CliqueEngine.Nodes;
+
+namespace Nodes;
 
 public class Move : Renderable
 {

@@ -1,6 +1,6 @@
 ﻿using SDL2;
 
-namespace CliqueEngine;
+namespace CliqueEngine.Nodes;
 
 public class Renderable : Behaviour
 {

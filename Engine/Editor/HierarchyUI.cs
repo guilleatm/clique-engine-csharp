@@ -1,6 +1,7 @@
-using System.Net;
 using System.Reflection;
 using CliqueEngine.UI;
+using CliqueEngine.Nodes;
+
 namespace CliqueEngine.Editor;
 
 class HierarchyUI : UIElement
@@ -30,8 +31,9 @@ class HierarchyUI : UIElement
 
 		Method removeNodeOptionsUI = () => nodeOptions.Free();
 
-		var types = new Type[] { typeof(MoveManager), typeof(Move), typeof(Renderable) };
-		//var types = Assembly.GetExecutingAssembly().GetTypes();
+		string namespaceName = nameof(CliqueEngine.Nodes);
+		string customNamespace = nameof(Nodes);
+		Type[] types = Assembly.GetExecutingAssembly().GetTypes().Where( d => d.Namespace != null && (d.Namespace == namespaceName || d.Namespace!.StartsWith( customNamespace ))).ToArray();
 
 		for (int i = 0; i < types.Length; i++)
 		{
@@ -47,13 +49,10 @@ class HierarchyUI : UIElement
 	void CreateNode(Type type)
 	{
 
-		//Node node = (Node) Activator.CreateInstance(type, new object {});
+		Node? node = (Node?) Activator.CreateInstance(type);
 
+		if (node == null) return;
 
-
-		Move r = new Move("assets/frog_square_32x32.png", new Vector2f(0, 0), new Vector2f(32, 32));
-
-		Label label = new Label($"{r.ID} {type.Name}");
-		label.parent = verticalLayout;
+		Label label = new Label($"{node.ID} {type.Name}") { parent = verticalLayout };
 	}
 }

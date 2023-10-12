@@ -2,6 +2,8 @@
 using CliqueEngine.UI;
 using SDL2;
 
+using CliqueEngine.Nodes;
+
 namespace CliqueEngine;
 
 public class RenderingServer

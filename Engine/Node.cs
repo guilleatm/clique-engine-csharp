@@ -1,4 +1,4 @@
-﻿namespace CliqueEngine;
+﻿namespace CliqueEngine.Nodes;
 
 public abstract class Node
 {
