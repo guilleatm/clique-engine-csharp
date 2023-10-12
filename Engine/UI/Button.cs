@@ -27,7 +27,7 @@ public class Button : UIContent
 	{
 		base.Render();
 	
-		_renderRect(Color.grey);
+		//_renderRect(Color.grey);
 		
 		SDL.SDL_Rect source = new SDL.SDL_Rect().From(Vector2f.zero, size);
 		SDL.SDL_Rect destination = new SDL.SDL_Rect().From(position, size);

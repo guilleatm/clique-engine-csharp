@@ -41,7 +41,7 @@ public abstract class UIElement
 
 	public virtual void Render()
 	{
-		_renderRect(Color.green);
+		_renderRect(Color.grey);
 
 		for (int i = 0; i < children.Count; i++)
 		{
@@ -83,12 +83,21 @@ public abstract class UIElement
 
 	}
 
-	protected void _renderRect(SDL.SDL_Color? color = null)
+	protected void _renderFillRect(SDL.SDL_Color? color = null)
 	{
 		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
 
 		_setColor(color ?? Color.grey);
 		SDL.SDL_RenderFillRect(UIRoot.SDLRenderer, ref rect);
+	    _setColor(Color.black);
+	}
+
+	protected void _renderRect(SDL.SDL_Color? color = null)
+	{
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+
+		_setColor(color ?? Color.grey);
+		SDL.SDL_RenderDrawRect(UIRoot.SDLRenderer, ref rect);
 	    _setColor(Color.black);
 	}
 
