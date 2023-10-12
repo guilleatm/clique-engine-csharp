@@ -18,6 +18,11 @@ public struct Vector2f
 		return new Vector2f(x * s.x, y * s.y);
 	}
 
+	public Vector2f Abs()
+	{
+		return new Vector2f(Math.Abs(x), Math.Abs(y));
+	}
+
 	public static Vector2f operator +(Vector2f v1, Vector2f v2)
 	{
 		return new Vector2f(v1.x + v2.x, v1.y + v2.y);

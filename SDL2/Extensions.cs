@@ -33,4 +33,9 @@ public static class Extensions
 		};
 	}
 
+	public static bool Contains(this SDL.SDL_Rect rect, SDL.SDL_Rect other)
+	{
+		return rect.x < other.x && rect.y < other.y && rect.x + rect.w > other.x + other.w && rect.y + rect.h > other.y + other.h;
+	}
+
 }

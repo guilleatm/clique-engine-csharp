@@ -21,19 +21,16 @@ public class MoveManager : Behaviour
 		}
 	}
 
-	void SayBy()
-	{
-		Console.WriteLine("Quitting");
-	}
 
-	public override void Update(float delta)
-	{
-		timer += delta;
 
-		if (timer > 1f)
-		{
-			timer = 0;
-			Console.WriteLine($"FPS: {1f / delta}");
-		}
-	}
+	// public override void Update(float delta)
+	// {
+	// 	timer += delta;
+
+	// 	if (timer > 1f)
+	// 	{
+	// 		timer = 0;
+	// 		Console.WriteLine($"FPS: {1f / delta}");
+	// 	}
+	// }
 }

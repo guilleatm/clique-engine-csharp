@@ -8,7 +8,6 @@ public class Button : UIContent
 {
 	const int FONT_SIZE = 20;
 	string text;
-	//nint surface;
 	nint texture;
 	
 	public Button(string text) : base(new Vector2f(text.Length, 1f) * FONT_SIZE)
@@ -17,6 +16,8 @@ public class Button : UIContent
 
 		nint surface = SDL_ttf.TTF_RenderText_Solid(UIRoot.UIFont, text, Color.white);
 		texture = SDL.SDL_CreateTextureFromSurface(UIRoot.SDLRenderer, surface);
+
+		Engine.instance.onClick += HandleClickEvent;
 	}
 
 	public override void Render()
@@ -28,9 +29,19 @@ public class Button : UIContent
 		SDL.SDL_RenderCopy(UIRoot.SDLRenderer, texture, ref source, ref destination);
 	}
 
-	public override bool HandleEvent(SDL.SDL_Event @event)
+	void HandleClickEvent(Vector2f originPosition, Vector2f finalPosition)
 	{
-		return base.HandleEvent(@event);
+		SDL.SDL_Rect clickRect = new SDL.SDL_Rect().From(originPosition, (finalPosition - originPosition).Abs());
+
+		if (rect.Contains(clickRect))
+		{
+			OnClick();
+		}
+	}
+
+	void OnClick()
+	{
+
 	}
 
 }

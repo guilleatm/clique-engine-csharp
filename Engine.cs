@@ -84,8 +84,10 @@ public partial class Engine
 		renderingServer.Render();
 	}
 
+	Vector2f mousePosition;
 	void HandleSDLEvents()
 	{
+
 		SDL.SDL_Event @event;
 		while ( SDL.SDL_PollEvent(out @event) > 0 )
 		{
@@ -101,6 +103,15 @@ public partial class Engine
 						onWindowResized?.Invoke(@event.window.data1, @event.window.data2);
 					}
 					break;
+
+
+				// CLICK EVENT
+				case SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN:
+					mousePosition = new Vector2f(@event.button.x, @event.button.y);
+				break;
+				case SDL.SDL_EventType.SDL_MOUSEBUTTONUP:
+					onClick?.Invoke(mousePosition, new Vector2f(@event.button.x, @event.button.y));
+				break;
 			}
 		}
 	}

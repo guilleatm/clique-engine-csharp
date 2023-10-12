@@ -34,17 +34,4 @@ public abstract class UIElement
 	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
 
 	public abstract void Render();
-	public virtual bool HandleEvent(SDL.SDL_Event @event)
-	{
-		bool handled;
-		for (int i = 0; i < children.Count; i++)
-		{
-			handled = children[i].HandleEvent(@event);
-
-			if (handled) return true;
-		}
-
-		return false;
-	}
-
 }
