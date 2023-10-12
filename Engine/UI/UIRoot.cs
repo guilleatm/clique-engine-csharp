@@ -10,8 +10,7 @@ public class UIRoot : UIElement
 	public static nint SDLRenderer;
 	public static nint UIFont;
 
-	//public override nint SDLRenderer { get; protected set; }
-	public override UIElement parent
+	public sealed override UIElement parent
 	{
 		get => throw new NullReferenceException($"{nameof(UIRoot)} does not have {nameof(parent)}.");
 		set => throw new InvalidOperationException($"Trying to set {nameof(parent)} of {nameof(UIRoot)}.");
@@ -40,13 +39,5 @@ public class UIRoot : UIElement
 
 		SDL_ttf.TTF_Init();
 		UIFont = SDL_ttf.TTF_OpenFont("assets/fonts/Hack-Regular.ttf", UI_FONT_SIZE);
-	}
-
-	public override void Render()
-	{
-		for (int i = 0; i < children.Count; i++)
-		{
-			children[i].Render();
-		}
 	}
 }

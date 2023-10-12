@@ -1,8 +1,7 @@
 ﻿namespace CliqueEngine.UI;
 
-public class UILayout : UIElement
+public class VerticalLayout : UIElement
 {
-	// Vertical layout #C?
 	const int MARGIN = 5;
 	Vector2f up = new Vector2f(0, 1);
 	public override void Render()
@@ -12,7 +11,7 @@ public class UILayout : UIElement
 		{
 			children[i].position = _position;
 			children[i].Render();
-			_position += (_position + children[i].size).Scale(up) + up * MARGIN;
+			_position = (_position + children[i].size).Scale(up) + up * MARGIN;
 		}
 	}
 }

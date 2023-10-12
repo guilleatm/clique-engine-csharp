@@ -46,18 +46,8 @@ public class RenderingServer
 
 		UIRoot = new UIRoot(SDLRenderer, Vector2f.one * WINDOW_SIZE);
 
-
-
-		var l = new UILayout();
-
-		l.parent = UIRoot;
-
-		UIContent c = new Button("Hello world");
-
-		c.parent = l;
-
-		c = new Button("Esto es un botun loco");
-		c.parent = l;
+		Editor.HierarchyUI h = new Editor.HierarchyUI();
+		h.parent = UIRoot;
 
 		//UIRoot.children.Add(c);
 
