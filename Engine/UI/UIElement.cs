@@ -17,13 +17,33 @@ public abstract class UIElement
 			}
 			_parent = value;
 			_parent.children.Add(this);
-			_parent.size = default; // Updates parent.size
+			_parent.size = Vector2f.one; // Updates parent.size
 		}
 	}
 
 	public List<UIElement> children { get; private set; } = new List<UIElement>();
 
-	public virtual Vector2f size { get; set; }
+	Vector2f _size;
+	public virtual Vector2f size
+	{
+		get => _size;
+		set
+		{
+			SDL.SDL_Rect r = new SDL.SDL_Rect().From(position, Vector2f.zero);
+
+			for (int i = 0; i < children.Count; i++)
+			{
+				r = r.Overlap(children[i].rect);
+			}
+
+			_size = new Vector2f(r.w, r.h);
+
+			if (parent != null)
+			{
+				parent.size = default; // Updates parent size
+			}
+		}
+	}
 	public Vector2f position { get; set; }
 	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
 
@@ -44,4 +64,19 @@ public abstract class UIElement
 			children[i].Free();
 		}
 	}
+
+	protected void _renderRect(SDL.SDL_Color? color = null)
+	{
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+
+		_setColor(color ?? Color.grey);
+		SDL.SDL_RenderFillRect(UIRoot.SDLRenderer, ref rect);
+	    _setColor(Color.black);
+	}
+
+	void _setColor(SDL.SDL_Color color)
+	{
+	    SDL.SDL_SetRenderDrawColor(UIRoot.SDLRenderer, color.r, color.g, color.b, color.a);
+	}
+
 }

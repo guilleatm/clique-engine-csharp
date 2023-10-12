@@ -1,14 +1,18 @@
+using System.Net;
 using System.Reflection;
 using CliqueEngine.UI;
 namespace CliqueEngine.Editor;
 
 class HierarchyUI : UIElement
 {
-	VerticalLayout verticalLayout = new VerticalLayout();
+	VerticalLayout verticalLayout;
 	Button addNodeBtn = new Button("Create Node");
 
 	public HierarchyUI() : base()
 	{
+
+		verticalLayout = new VerticalLayout() { parent = this };
+
 		addNodeBtn.onClick += DisplayNodeTypes;
 		addNodeBtn.parent = verticalLayout;
 
@@ -16,34 +20,28 @@ class HierarchyUI : UIElement
 		List<Node> nodes = Engine.instance.nodes;
 		for (int i = 0; i < nodes.Count; i++)
 		{
-			Label label = new Label($"{nodes[i].GetType().Name}");
-			label.parent = verticalLayout;
+			Label label = new Label($"{nodes[i].GetType().Name}") { parent = verticalLayout };
 		}
-
-		verticalLayout.parent = this;
 	}
 
 	void DisplayNodeTypes()
 	{
-
-		VerticalLayout nodeOptions = new VerticalLayout();
-
+		VerticalLayout nodeOptions = new VerticalLayout() { parent = addNodeBtn };
 
 		Method removeNodeOptionsUI = () => nodeOptions.Free();
 
-		var types = Assembly.GetExecutingAssembly().GetTypes();
+		var types = new Type[] { typeof(WebHeaderCollection), typeof(Move), typeof(Renderable) };
+		//var types = Assembly.GetExecutingAssembly().GetTypes();
 
 		for (int i = 0; i < types.Length; i++)
 		{
 			int _index = i;
+
 			Button b = new Button($"{types[i].Name}");
 			b.onClick += () => CreateNode(types[_index]);
 			b.onClick += removeNodeOptionsUI;
 			b.parent = nodeOptions;
 		}
-
-		nodeOptions.parent = addNodeBtn;
-
 	}
 
 	void CreateNode(Type type)

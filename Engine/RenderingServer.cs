@@ -46,10 +46,7 @@ public class RenderingServer
 
 		UIRoot = new UIRoot(SDLRenderer, Vector2f.one * WINDOW_SIZE);
 
-		Editor.HierarchyUI h = new Editor.HierarchyUI();
-		h.parent = UIRoot;
-
-		//UIRoot.children.Add(c);
+		Editor.HierarchyUI h = new Editor.HierarchyUI() { parent = UIRoot };
 
 
 

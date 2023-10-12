@@ -11,38 +11,22 @@ public class UIContent : UIElement
 		get => _size;
 		set
 		{
-			_size = value;
 			if (parent != null)
 			{
-				parent.size = default; // Updates parent.size
+				parent.size = Vector2f.one; // Updates parent.size
 			}
 		}
 	}
 
 	public UIContent(Vector2f size)
 	{
-		this.size = size;
+		this._size = size; // It is important this._size instead of this.size
 	}
 
 	public override void Render()
 	{
-		_renderRect();
+		//_renderRect(Color.white);
 
 		base.Render();		
 	}
-
-	void _renderRect()
-	{
-		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
-
-		_setColor(Color.grey);
-		SDL.SDL_RenderFillRect(UIRoot.SDLRenderer, ref rect);
-	    _setColor(Color.black);
-	}
-
-	void _setColor(SDL.SDL_Color color)
-	{
-	    SDL.SDL_SetRenderDrawColor(UIRoot.SDLRenderer, color.r, color.g, color.b, color.a);
-	}
-
 }
