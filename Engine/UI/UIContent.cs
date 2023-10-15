@@ -19,7 +19,6 @@ public class UIContent : UIElement
 	public override void Render()
 	{
 		base.Render();
-		_renderFillRect(Color.green);
 	}
 
 	public override void AddChildren(UIElement child)

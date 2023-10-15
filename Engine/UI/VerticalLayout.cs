@@ -14,4 +14,16 @@ public class VerticalLayout : UIElement
 
 		UpdateSize();
 	}
+
+	protected override void FreeChildren(UIElement _children)
+	{
+		base.FreeChildren(_children);
+		offset -= (int) _children.size.y + MARGIN;
+	}
+
+	public override void Render()
+	{
+		_renderRect(Color.grey);
+		base.Render();
+	}
 }

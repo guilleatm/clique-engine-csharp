@@ -7,6 +7,7 @@ public abstract class UIElement
 {
 	public List<UIElement> children { get; private set; } = new List<UIElement>();
 	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
+	public Vector2f anchor = Vector2f.zero;
 
 
 	protected UIElement _parent = null!;
@@ -26,14 +27,13 @@ public abstract class UIElement
 		set => _size = value;
 	}
 
-
 	public Vector2f localPosition { get; set; }
 	public virtual Vector2f position
 	{ 
 		get
 		{
 			if (parent == null) return Vector2f.zero;
-			return parent.position + localPosition;
+			return parent.position + localPosition ;
 		}
 	}
 
@@ -41,8 +41,6 @@ public abstract class UIElement
 
 	public virtual void Render()
 	{
-		_renderRect(Color.grey);
-
 		for (int i = 0; i < children.Count; i++)
 		{
 			children[i].Render();
@@ -51,7 +49,7 @@ public abstract class UIElement
 
 	public virtual void Free()
 	{
-		parent.children.Remove(this);
+		parent.FreeChildren(this);
 
 		parent.UpdateSize();
 
@@ -59,6 +57,11 @@ public abstract class UIElement
 		{
 			children[i].Free();
 		}
+	}
+
+	protected virtual void FreeChildren(UIElement _children)
+	{
+		children.Remove(_children);
 	}
 
 	public virtual void AddChildren(UIElement child)
@@ -79,8 +82,12 @@ public abstract class UIElement
 
 		if (this is UIRoot) return;
 
-		parent.UpdateSize();
+		if (parent == null)
+		{
+			throw new NullReferenceException($"UIElement of type {GetType()} has no parent.");
+		}
 
+		parent.UpdateSize();
 	}
 
 	protected void _renderFillRect(SDL.SDL_Color? color = null)

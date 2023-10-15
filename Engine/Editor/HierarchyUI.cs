@@ -9,10 +9,12 @@ class HierarchyUI : UIElement
 	VerticalLayout verticalLayout;
 	Button addNodeBtn;
 
-	public HierarchyUI(UIElement root) : base()
+	public InspectorUI? inspector { get; set; }
+
+	public HierarchyUI(UIRoot root) : base()
 	{
 		parent = root;
-
+		
 		verticalLayout = new VerticalLayout() { parent = this };
 		addNodeBtn = new Button("Create Node") { parent = verticalLayout };
 
@@ -21,7 +23,7 @@ class HierarchyUI : UIElement
 		List<Node> nodes = Engine.instance.nodes;
 		for (int i = 0; i < nodes.Count; i++)
 		{
-			Label label = new Label($"{nodes[i].GetType().Name}") { parent = verticalLayout };
+			HierarchyLabel label = new HierarchyLabel(nodes[i], this) { parent = verticalLayout };
 		}
 	}
 
@@ -48,7 +50,6 @@ class HierarchyUI : UIElement
 
 	void CreateNode(Type type)
 	{
-
 		// This is slow but ParameterInfo.GetParameters() has to be overriden in derived classes
 		try
 		{
@@ -56,7 +57,7 @@ class HierarchyUI : UIElement
 
 			if (node == null) return;
 
-			Label label = new Label($"{node.ID} {type.Name}") { parent = verticalLayout };
+			HierarchyLabel label = new HierarchyLabel(node, this) { parent = verticalLayout };
 		}
 		catch (MissingMethodException _)
 		{

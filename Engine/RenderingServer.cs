@@ -47,7 +47,7 @@ public class RenderingServer
 
 		UIRoot = new UIRoot(SDLRenderer);
 
-		Editor.HierarchyUI h = new Editor.HierarchyUI(UIRoot);
+		Editor.EditorUI editor = new Editor.EditorUI(UIRoot);
 
 
 

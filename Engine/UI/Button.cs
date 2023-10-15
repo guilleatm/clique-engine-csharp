@@ -12,6 +12,7 @@ public class Button : UIContent
 	nint textTexture;
 
 	public event Method onClick = null!;
+	bool selected = false;
 	
 	public Button(string text) : base(new Vector2f(text.Length, 1f) * FONT_SIZE)
 	{
@@ -27,6 +28,15 @@ public class Button : UIContent
 
 	public override void Render()
 	{
+		if (selected)
+		{
+			_renderFillRect(Color.yellow);
+		}
+		else
+		{
+			_renderFillRect(Color.green);
+		}
+
 		base.Render();
 	
 		//_renderRect(Color.grey);
@@ -40,7 +50,10 @@ public class Button : UIContent
 	{
 		SDL.SDL_Rect clickRect = new SDL.SDL_Rect().From(originPosition, (finalPosition - originPosition).Abs());
 
-		if (rect.Contains(clickRect))
+		bool clicked = rect.Contains(clickRect);
+		selected = clicked;
+
+		if (clicked)
 		{
 			onClick?.Invoke();
 		}
