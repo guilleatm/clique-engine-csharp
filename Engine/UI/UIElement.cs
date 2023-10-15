@@ -33,7 +33,7 @@ public abstract class UIElement
 		get
 		{
 			if (parent == null) return Vector2f.zero;
-			return parent.position + localPosition ;
+			return parent.position + localPosition - size.Scale(anchor);
 		}
 	}
 
@@ -73,7 +73,7 @@ public abstract class UIElement
 
 	protected void UpdateSize()
 	{
-		SDL.SDL_Rect r = new SDL.SDL_Rect().From(localPosition, Vector2f.zero);
+		SDL.SDL_Rect r = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.zero);
 		for (int i = 0; i < children.Count; i++)
 		{
 			r = r.Overlap( new SDL.SDL_Rect().From(children[i].localPosition, children[i].size) );

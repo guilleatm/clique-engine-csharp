@@ -15,7 +15,7 @@ class InspectorUI : UIElement
 		verticalLayout = new VerticalLayout() { parent = this };
 		Label header = new Label("Inspector") { parent = verticalLayout };
 
-		//Engine.instance.onWindowResized += (int widht, int height) => localPosition = new Vector2f(widht, 0);
+		Engine.instance.onWindowResized += (int widht, int height) => localPosition = new Vector2f(widht, 0);
 	}
 
 	public void Inspect(Node node)
@@ -23,7 +23,7 @@ class InspectorUI : UIElement
 		Reset();
 
 		// Header
-		//(verticalLayout.children[0] as Label)!.SetText($"{node.GetType()}");
+		(verticalLayout.children[0] as Label)!.SetText($"{node.GetType()}");
 
 		FieldInfo[] fields = node.GetType().GetFields();
 
