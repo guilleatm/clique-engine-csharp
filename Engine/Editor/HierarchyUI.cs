@@ -31,7 +31,7 @@ class HierarchyUI : UIElement
 
 		Method removeNodeOptionsUI = () => nodeOptions.Free();
 
-		string namespaceName = nameof(CliqueEngine.Nodes);
+		string namespaceName = "CliqueEngine.Nodes";
 		string customNamespace = nameof(Nodes);
 		Type[] types = Assembly.GetExecutingAssembly().GetTypes().Where( d => d.Namespace != null && (d.Namespace == namespaceName || d.Namespace!.StartsWith( customNamespace ))).ToArray();
 
@@ -49,10 +49,18 @@ class HierarchyUI : UIElement
 	void CreateNode(Type type)
 	{
 
-		Node? node = (Node?) Activator.CreateInstance(type);
+		// This is slow but ParameterInfo.GetParameters() has to be overriden in derived classes
+		try
+		{
+			Node? node = (Node?) Activator.CreateInstance(type);
 
-		if (node == null) return;
+			if (node == null) return;
 
-		Label label = new Label($"{node.ID} {type.Name}") { parent = verticalLayout };
+			Label label = new Label($"{node.ID} {type.Name}") { parent = verticalLayout };
+		}
+		catch (MissingMethodException _)
+		{
+			Console.WriteLine($"Couldn't create node of type {type.Name}");
+		}
 	}
 }

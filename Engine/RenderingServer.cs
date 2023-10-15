@@ -9,6 +9,7 @@ namespace CliqueEngine;
 public class RenderingServer
 {
 	public static RenderingServer instance = null!;
+	public Vector2f windowSize = new Vector2f(600, 600);
 	nint window;
 	nint SDLRenderer;
 
@@ -23,14 +24,14 @@ public class RenderingServer
 
 	public void Start()
 	{
-		const int WINDOW_SIZE = 600;
+		Engine.instance.onWindowResized += (int width, int height) => windowSize = new Vector2f(width, height);
 
 		SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
 
 		SDL.SDL_WindowFlags windowFlags = 	SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS |
 											SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
 
-		SDL.SDL_CreateWindowAndRenderer(WINDOW_SIZE, WINDOW_SIZE, windowFlags, out window, out SDLRenderer);
+		SDL.SDL_CreateWindowAndRenderer((int) windowSize.x, (int) windowSize.y, windowFlags, out window, out SDLRenderer);
 
 		string file = "assets/frog_square_32x32.png";
 		nint icon = SDL_image.IMG_Load(file);
@@ -65,12 +66,11 @@ public class RenderingServer
 		SDL.SDL_Rect sourceRect = new SDL.SDL_Rect();
 		for (int i = 0; i < renderables.Count(); i++)
 		{
-			Renderable r = renderables[i];
+			// No texture set yet
+			if (renderables[i].texture == nint.Zero) continue;
 			
-			destinationRect = destinationRect.From(r.position, r.size);
-			sourceRect = sourceRect.From(Vector2f.zero, r.size);
-			//_updateRect(ref destinationRect, (int) r.position.x, (int) r.position.y, (int) r.size.x, (int) r.size.y);
-			//_updateRect(ref sourceRect, 0, 0, (int) r.size.x, (int) r.size.y);
+			destinationRect = destinationRect.From(renderables[i].position, renderables[i].size);
+			sourceRect = sourceRect.From(Vector2f.zero, renderables[i].size);
 
 			SDL.SDL_RenderCopy(SDLRenderer, renderables[i].texture, ref sourceRect, ref destinationRect);
 			//SDL.SDL_RenderCopyF(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
@@ -95,11 +95,6 @@ public class RenderingServer
 		SDL.SDL_RenderClear(SDLRenderer);
 	}
 
-	void SetColor(SDL.SDL_Color color)
-	{
-	    SDL.SDL_SetRenderDrawColor(SDLRenderer, color.r, color.g, color.b, color.a);
-	}
-
 	public nint CreateTexture(Renderable renderable, string path)
 	{
 		return SDL_image.IMG_LoadTexture(SDLRenderer, path);
@@ -108,18 +103,6 @@ public class RenderingServer
 	public void AddResource(Renderable renderable)
 	{
 		renderables.Add(renderable);
-	}
-
-	void _updateRect(ref SDL.SDL_Rect rect, int x, int y, int w, int h)
-	{
-		rect.x = x;	rect.y = y;
-		rect.w = w;	rect.h = h;
-	}
-
-	void _updateRect(ref SDL.SDL_FRect rect, float x, float y, float w, float h)
-	{
-		rect.x = x;	rect.y = y;
-		rect.w = w;	rect.h = h;
 	}
 
 	~RenderingServer()

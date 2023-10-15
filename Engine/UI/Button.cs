@@ -18,6 +18,8 @@ public class Button : UIContent
 		this.text = text;
 
 		nint surface = SDL_ttf.TTF_RenderText_Solid(UIRoot.UIFont, text, Color.white);
+		//nint surface = SDL_ttf.TTF_RenderText_Shaded(UIRoot.UIFont, text, Color.white, Color.black);
+
 		textTexture = SDL.SDL_CreateTextureFromSurface(UIRoot.SDLRenderer, surface);
 
 		Engine.instance.onClick += HandleClickEvent;
