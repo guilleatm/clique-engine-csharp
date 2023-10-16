@@ -43,5 +43,10 @@ public struct Vector2f
 		return new Vector2f(v1.x / f, v1.y / f);
 	}
 
+	public override string ToString()
+	{
+		return $"({x}, {y})";
+	}
+
 
 }
