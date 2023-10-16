@@ -12,7 +12,7 @@ public class RealtimeLabel : Label
 	Node node;
 	FieldInfo fieldInfo;
 
-	public RealtimeLabel(Node n, FieldInfo field) : base()
+	public RealtimeLabel(Node n, FieldInfo field, int maxLenght = 16) : base(maxLenght)
 	{
 		this.node = n;
 		this.fieldInfo = field;
@@ -20,7 +20,7 @@ public class RealtimeLabel : Label
 
 	public override void Render()
 	{
-		this.text = fieldInfo.GetValue(node)!.ToString()!;
+		this.text = $"{fieldInfo.FieldType.GetPrettyName()} {fieldInfo.Name}: {fieldInfo.GetValue(node)!.ToString()!}";
 		base.Render();
 	}
 }

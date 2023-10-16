@@ -32,11 +32,11 @@ public class Label : UIContent
 			SDL.SDL_QueryTexture(texture, out uint format, out int access, out int width, out int height);
 			textureSize = new Vector2f(width, height);
 
-			this.size = new Vector2f(text.Length, 1f) * FONT_SIZE;
+			//this.size = new Vector2f(text.Length, 1f) * FONT_SIZE;
 		}
 	}
 
-	public Label() : base(Vector2f.zero)
+	public Label(int maxLenght) : base(new Vector2f(maxLenght, 1f) * FONT_SIZE)
 	{
 	}
 	
@@ -53,7 +53,7 @@ public class Label : UIContent
 		if (text == null) return;
 
 		SDL.SDL_Rect source = new SDL.SDL_Rect().From(Vector2f.zero, textureSize);
-		SDL.SDL_Rect destination = new SDL.SDL_Rect().From(position, size);
+		SDL.SDL_Rect destination = new SDL.SDL_Rect().From(position, textureSize);
 		SDL.SDL_RenderCopy(UIRoot.SDLRenderer, texture, ref source, ref destination);
 	}
 

@@ -10,9 +10,9 @@ public class UIContent : UIElement
 		get => _size;
 		set
 		{
-			value = _size;
-			if (parent == null) return;
-			this.parent.UpdateSize();
+			// _size = value;
+			// if (parent == null) return;
+			// this.parent.UpdateSize();
 		}
 	}
 

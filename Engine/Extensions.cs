@@ -1,4 +1,5 @@
-﻿using SDL2;
+﻿using System.Reflection;
+using SDL2;
 
 namespace CliqueEngine.Extensions;
 
@@ -37,5 +38,12 @@ public static class Extensions
 	{
 		return rect.x < other.x && rect.y < other.y && rect.x + rect.w > other.x + other.w && rect.y + rect.h > other.y + other.h;
 	}
+
+	public static string GetPrettyName(this Type type)
+	{
+		int i = type.Name.LastIndexOf('.');
+		if (i == -1) return type.Name;
+		return type.Name.Substring(i, type.Name.Length - 1);
+	} 
 
 }

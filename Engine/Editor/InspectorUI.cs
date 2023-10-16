@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 using CliqueEngine.UI;
 using CliqueEngine.Nodes;
+using CliqueEngine.Extensions;
 
 namespace CliqueEngine.Editor;
 
@@ -24,24 +25,17 @@ class InspectorUI : UIElement
 		Reset();
 
 		// Header
-		(verticalLayout.children[0] as Label)!.text = $"{GetPrettyTypeName(node.GetType())}";
+		(verticalLayout.children[0] as Label)!.text = $"{node.GetType().GetPrettyName()}";
 
 		FieldInfo[] fields = node.GetType().GetFields();
 
 		for (int i = 0; i < fields.Length; i++)
 		{
-			string type_str = GetPrettyTypeName(fields[i].FieldType);
 			RealtimeLabel l = new RealtimeLabel(node, fields[i]) { parent = verticalLayout };
 			verticalLayout.AddChildren(l);
 		}
 	}
 
-	string GetPrettyTypeName(Type t)
-	{
-		int i = t.Name.LastIndexOf('.');
-		if (i == -1) return t.Name;
-		return t.Name.Substring(i, t.Name.Length - 1);
-	}
 
 	void Reset()
 	{
