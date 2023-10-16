@@ -20,12 +20,14 @@ public class RenderingServer
 	public RenderingServer()
 	{
 		instance = this;
+	
+		Engine.instance.onWindowResized += (int width, int height) => windowSize = new Vector2f(width, height);
+
+
 	}
 
 	public void Start()
 	{
-		Engine.instance.onWindowResized += (int width, int height) => windowSize = new Vector2f(width, height);
-
 		SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
 
 		SDL.SDL_WindowFlags windowFlags = 	SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS |
@@ -40,17 +42,18 @@ public class RenderingServer
 			throw new FileNotFoundException($"File: {file} not found");
 		}
 		SDL.SDL_SetWindowIcon(window, icon);
-
-		
-		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
-		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+		SDL.SDL_SetWindowTitle(window, "CLIQUE ENGINE");
 
 		UIRoot = new UIRoot(SDLRenderer);
 
-		if (Engine.EDITOR)
-		{
-			Editor.EditorUI editor = new Editor.EditorUI(UIRoot);
-		}
+		// window = SDL.SDL_CreateWindow("CLIQUE ENGINE", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, WINDOW_SIZE, WINDOW_SIZE, SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS);
+		// SDLRenderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+
+	}
+
+	public void CreateEditorUI()
+	{
+		Editor.EditorUI editor = new Editor.EditorUI(UIRoot);
 	}
 
 	public void Render()
@@ -69,20 +72,7 @@ public class RenderingServer
 			//SDL.SDL_RenderCopyF(SDLRenderer, resources[i].texture, ref sourceRect, ref destinationRect);
 		}
 
-		// var a = new SDL.SDL_Rect() {x = 0, y = 0, w = 100, h = 100};
-
-		// SDL.SDL_Color def = new SDL.SDL_Color() { r = 0, g = 0, b = 0, a = 255 };
-		// SDL.SDL_Color ui = new SDL.SDL_Color() { r = 100, g = 100, b = 100, a = 200 };
-
-
-		// SetColor(ui);
-		// SDL.SDL_RenderFillRect(SDLRenderer, ref a);
-	    // SetColor(def);
-
-
 		UIRoot.Render();
-
-
 
 		SDL.SDL_RenderPresent(SDLRenderer);
 		SDL.SDL_RenderClear(SDLRenderer);
@@ -96,6 +86,11 @@ public class RenderingServer
 	public void AddResource(Renderable renderable)
 	{
 		renderables.Add(renderable);
+	}
+
+	public void FreeResource(Renderable renderable)
+	{
+		renderables.Remove(renderable);
 	}
 
 	~RenderingServer()

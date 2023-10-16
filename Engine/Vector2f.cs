@@ -1,4 +1,6 @@
-﻿namespace CliqueEngine;
+﻿using System.Globalization;
+
+namespace CliqueEngine;
 
 public struct Vector2f
 {
@@ -45,8 +47,6 @@ public struct Vector2f
 
 	public override string ToString()
 	{
-		return $"({x}, {y})";
+		return string.Format("({0} | {1})", string.Format("{0:0.0}", x), string.Format("{0:0.0}", y));
 	}
-
-
 }

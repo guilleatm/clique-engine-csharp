@@ -21,5 +21,11 @@ class HierarchyLabel : Button
 		if(hierarchy.inspector == null) return;
 
 		hierarchy.inspector.Inspect(related);
+		
+		if (hierarchy.grabber != null)
+		{
+			hierarchy.grabber.Free();
+		}
+		hierarchy.grabber = new Grabber(related);
 	}
 }

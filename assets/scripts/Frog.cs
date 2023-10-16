@@ -3,13 +3,13 @@ using CliqueEngine.Nodes;
 
 namespace Nodes;
 
-public class Move : Renderable
+public class Frog : Renderable
 {
 
 	Vector2f limit = RenderingServer.instance.windowSize;
 	Vector2f v;
 	
-	public Move(string path, Vector2f size, Vector2f position) : base(path, position)
+	public Frog() : base("assets/frog_square_32x32.png", Vector2f.zero)
 	{
 
 	}

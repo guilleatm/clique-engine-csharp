@@ -5,7 +5,7 @@ namespace CliqueEngine.UI;
 
 public class UIRoot : UIElement
 {
-	const int UI_FONT_SIZE = 20;
+	public const int UI_FONT_SIZE = 20;
 
 	public static nint SDLRenderer;
 	public static nint UIFont;

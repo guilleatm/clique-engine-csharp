@@ -1,10 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using CliqueEngine;
+using CliqueEngine.Editor;
 
-
-Console.WriteLine("Entry point");
-
-Engine clique = new Engine();
-
-clique.Start();
+Engine cliqueEngine = new Engine();
+cliqueEngine.Start(editor: true);

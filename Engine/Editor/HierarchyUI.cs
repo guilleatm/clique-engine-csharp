@@ -8,6 +8,7 @@ class HierarchyUI : UIElement
 {
 	VerticalLayout verticalLayout;
 	Button addNodeBtn;
+	public Grabber grabber;
 
 	public InspectorUI? inspector { get; set; }
 
@@ -71,5 +72,6 @@ class HierarchyUI : UIElement
 	void CreateNodeLabel(Node node)
 	{
 		HierarchyLabel label = new HierarchyLabel(node, this) { parent = verticalLayout };
+		node.onFreed += (Node n) => label.Free();
 	}
 }

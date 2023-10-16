@@ -19,7 +19,9 @@ class EditorUI
 			inspector = inspector
 		};
 
-
-
+		RunBarUI runBar = new RunBarUI(root)
+		{
+			localPosition = new Vector2f(RenderingServer.instance.windowSize.x / 2, 0)
+		};
 	}
 }

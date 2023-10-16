@@ -5,13 +5,13 @@ namespace CliqueEngine;
 
 public partial class Engine
 {
-	const int TARGET_FPS = 60;
-	public const bool EDITOR = true;
-	
+	const int TARGET_FPS = 60;	
 	public static Engine instance = null!;
 
-	bool run = false;
-	RenderingServer renderingServer = null!;
+	bool quit;
+	bool run;
+	public bool IsRunnig => run;
+	public RenderingServer renderingServer { get; protected set; } = null!;
 	public List<Node> nodes { get; private set; } = new List<Node>();
 	List<Behaviour> behaviours = new List<Behaviour>();
 	Queue<Behaviour> behavioursToStart = new Queue<Behaviour>();
@@ -24,12 +24,17 @@ public partial class Engine
 		renderingServer = new RenderingServer();
 	}
 
-	public void Start()
+	public void Start(bool editor = false)
 	{
 		const int TARGET_ELAPSED_MS = 1000 / TARGET_FPS;
 
 		SDL.SDL_Init(SDL.SDL_INIT_EVENTS);
 		renderingServer.Start();
+
+		if (editor)
+		{
+			renderingServer.CreateEditorUI();
+		}
 
 		// START
 
@@ -40,14 +45,23 @@ public partial class Engine
 
 		uint lastFrameStart_ms = 0;
 
+		quit = false;
 		run = true;
-		while ( run )
+		while ( !quit )
 		{
 			uint start_ms = SDL.SDL_GetTicks();
-			float delta = (start_ms - lastFrameStart_ms) / 1000f;
 
-			_startBehaviours();
-			Update(delta);
+			HandleSDLEvents();
+
+			if (run)
+			{
+				float delta = (start_ms - lastFrameStart_ms) / 1000f;
+
+				Update(delta);
+			}
+
+			renderingServer.Render();
+
 
 			lastFrameStart_ms = start_ms;
 
@@ -61,6 +75,17 @@ public partial class Engine
 
 		onEngineQuit?.Invoke();
 
+	}
+
+
+	public void Pause()
+	{
+		run = false;
+	}
+
+	public void Resume()
+	{
+		run = true;
 	}
 
 	void _startBehaviours()
@@ -77,9 +102,7 @@ public partial class Engine
 
 	void Update(float delta)
 	{
-		// Console.WriteLine("Engine Update");
-
-		HandleSDLEvents();
+		_startBehaviours();
 
 		for (int i = 0; i < behaviours.Count; i++)
 		{
@@ -88,8 +111,6 @@ public partial class Engine
 				behaviours[i].Update(delta);
 			}
 		}
-
-		renderingServer.Render();
 	}
 
 	Vector2f mousePosition;
@@ -102,7 +123,7 @@ public partial class Engine
 			switch(@event.type)
 			{
 				case SDL.SDL_EventType.SDL_QUIT:
-					run = false;
+					quit = true;
 					break;
 				case SDL.SDL_EventType.SDL_WINDOWEVENT:
 
@@ -120,6 +141,14 @@ public partial class Engine
 				case SDL.SDL_EventType.SDL_MOUSEBUTTONUP:
 					onClick?.Invoke(mousePosition, new Vector2f(@event.button.x, @event.button.y));
 				break;
+				
+				// MOUSE MOVEMENT
+				case SDL.SDL_EventType.SDL_MOUSEMOTION:
+					onMouseMoved?.Invoke(new Vector2f(@event.motion.x, @event.motion.y));
+				break;
+
+				
+
 			}
 		}
 	}
@@ -128,6 +157,11 @@ public partial class Engine
 	{
 		nodes.Add(node);
 		onNodeAdded?.Invoke(node);
+	}
+
+	public void FreeResource(Node node)
+	{
+		nodes.Remove(node);
 	}
 
 	public void AddResource(Behaviour behaviour)

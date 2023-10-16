@@ -3,16 +3,17 @@ using SDL2;
 using CliqueEngine.Extensions;
 using System.Reflection;
 using CliqueEngine.Nodes;
+using CliqueEngine.UI;
 
 
-namespace CliqueEngine.UI;
+namespace CliqueEngine.Editor;
 
 public class RealtimeLabel : Label
 {
 	Node node;
 	FieldInfo fieldInfo;
 
-	public RealtimeLabel(Node n, FieldInfo field, int maxLenght = 16) : base(maxLenght)
+	public RealtimeLabel(Node n, FieldInfo field, int maxLenght = 32) : base(maxLenght)
 	{
 		this.node = n;
 		this.fieldInfo = field;

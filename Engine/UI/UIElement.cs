@@ -8,6 +8,7 @@ public abstract class UIElement
 	public List<UIElement> children { get; private set; } = new List<UIElement>();
 	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
 	public Vector2f anchor = Vector2f.zero;
+	public bool enabled = true;
 
 
 	protected UIElement _parent = null!;
@@ -41,6 +42,7 @@ public abstract class UIElement
 
 	public virtual void Render()
 	{
+		if (!enabled) return;
 		for (int i = 0; i < children.Count; i++)
 		{
 			children[i].Render();
