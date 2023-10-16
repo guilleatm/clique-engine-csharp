@@ -8,20 +8,24 @@ namespace CliqueEngine.UI;
 public class Button : UIContent
 {
 	const int FONT_SIZE = 20;
-	string text;
 	nint textTexture;
+	Vector2f textureSize;
+	
 
 	public event Method onClick = null!;
 	bool selected = false;
 	
 	public Button(string text) : base(new Vector2f(text.Length, 1f) * FONT_SIZE)
 	{
-		this.text = text;
-
 		nint surface = SDL_ttf.TTF_RenderText_Solid(UIRoot.UIFont, text, Color.white);
 		//nint surface = SDL_ttf.TTF_RenderText_Shaded(UIRoot.UIFont, text, Color.white, Color.black);
 
 		textTexture = SDL.SDL_CreateTextureFromSurface(UIRoot.SDLRenderer, surface);
+
+		SDL.SDL_QueryTexture(textTexture, out uint format, out int access, out int width, out int height);
+		textureSize = new Vector2f(width, height);
+
+		SDL.SDL_FreeSurface(surface);
 
 		Engine.instance.onClick += HandleClickEvent;
 	}
@@ -41,7 +45,7 @@ public class Button : UIContent
 	
 		//_renderRect(Color.grey);
 		
-		SDL.SDL_Rect source = new SDL.SDL_Rect().From(Vector2f.zero, size);
+		SDL.SDL_Rect source = new SDL.SDL_Rect().From(Vector2f.zero, textureSize);
 		SDL.SDL_Rect destination = new SDL.SDL_Rect().From(position, size);
 		SDL.SDL_RenderCopy(UIRoot.SDLRenderer, textTexture, ref source, ref destination);
 	}

@@ -6,6 +6,7 @@ namespace CliqueEngine;
 public partial class Engine
 {
 	const int TARGET_FPS = 60;
+	public const bool EDITOR = true;
 	
 	public static Engine instance = null!;
 
@@ -21,7 +22,6 @@ public partial class Engine
 	{
 		instance = this;
 		renderingServer = new RenderingServer();
-
 	}
 
 	public void Start()
@@ -127,6 +127,7 @@ public partial class Engine
 	public void AddResource(Node node)
 	{
 		nodes.Add(node);
+		onNodeAdded?.Invoke(node);
 	}
 
 	public void AddResource(Behaviour behaviour)

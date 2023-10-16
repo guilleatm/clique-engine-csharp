@@ -47,17 +47,10 @@ public class RenderingServer
 
 		UIRoot = new UIRoot(SDLRenderer);
 
-		Editor.EditorUI editor = new Editor.EditorUI(UIRoot);
-
-
-
-
-
-
-
-
-
-	
+		if (Engine.EDITOR)
+		{
+			Editor.EditorUI editor = new Editor.EditorUI(UIRoot);
+		}
 	}
 
 	public void Render()

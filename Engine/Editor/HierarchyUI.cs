@@ -14,6 +14,8 @@ class HierarchyUI : UIElement
 	public HierarchyUI(UIRoot root) : base()
 	{
 		parent = root;
+
+		Engine.instance.onNodeAdded += OnNodeAdded;
 		
 		verticalLayout = new VerticalLayout() { parent = this };
 		addNodeBtn = new Button("Create Node") { parent = verticalLayout };
@@ -25,6 +27,11 @@ class HierarchyUI : UIElement
 		{
 			HierarchyLabel label = new HierarchyLabel(nodes[i], this) { parent = verticalLayout };
 		}
+	}
+
+	void OnNodeAdded(Node node)
+	{
+		CreateNodeLabel(node);
 	}
 
 	void DisplayNodeTypes()
@@ -57,11 +64,16 @@ class HierarchyUI : UIElement
 
 			if (node == null) return;
 
-			HierarchyLabel label = new HierarchyLabel(node, this) { parent = verticalLayout };
+			CreateNodeLabel(node);
 		}
 		catch (MissingMethodException _)
 		{
 			Console.WriteLine($"Couldn't create node of type {type.Name}");
 		}
+	}
+
+	void CreateNodeLabel(Node node)
+	{
+		HierarchyLabel label = new HierarchyLabel(node, this) { parent = verticalLayout };
 	}
 }
