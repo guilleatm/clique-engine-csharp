@@ -61,10 +61,6 @@ class HierarchyUI : UIElement
 		try
 		{
 			Node? node = (Node?) Activator.CreateInstance(type);
-
-			if (node == null) return;
-
-			CreateNodeLabel(node);
 		}
 		catch (MissingMethodException _)
 		{

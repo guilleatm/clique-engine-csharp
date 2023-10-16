@@ -11,6 +11,7 @@ public class UIContent : UIElement
 		set
 		{
 			value = _size;
+			if (parent == null) return;
 			this.parent.UpdateSize();
 		}
 	}

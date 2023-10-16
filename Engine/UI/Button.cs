@@ -6,11 +6,7 @@ using CliqueEngine;
 namespace CliqueEngine.UI;
 
 public class Button : Label
-{
-	const int FONT_SIZE = 20;
-	nint textTexture;
-	Vector2f textureSize;
-	
+{	
 
 	public event Method onClick = null!;
 	bool selected = false;
