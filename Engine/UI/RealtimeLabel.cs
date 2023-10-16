@@ -10,7 +10,7 @@ namespace CliqueEngine.UI;
 public class RealtimeLabel : UIContent
 {
 	const int FONT_SIZE = 20;
-	const int MAX_LENGHT = 16; 
+	const int MAX_LENGHT = 16;
 	nint texture;
 	nint surface;
 	Node node;
@@ -44,7 +44,8 @@ public class RealtimeLabel : UIContent
 
 	public override void Free()
 	{
-		SDL.SDL_FreeSurface(surface);
+		// #TODO Something not working here
+		//SDL.SDL_FreeSurface(surface);
 		base.Free();
 	}
 }

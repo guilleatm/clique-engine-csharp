@@ -8,7 +8,11 @@ public class UIContent : UIElement
 	public override Vector2f size
 	{
 		get => _size;
-		set {}
+		set
+		{
+			value = _size;
+			this.parent.UpdateSize();
+		}
 	}
 
 	public UIContent(Vector2f size)

@@ -71,7 +71,7 @@ public abstract class UIElement
 		UpdateSize();
 	}
 
-	protected void UpdateSize()
+	public void UpdateSize() // protected better but :(
 	{
 		SDL.SDL_Rect r = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.zero);
 		for (int i = 0; i < children.Count; i++)

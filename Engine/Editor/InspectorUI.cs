@@ -24,7 +24,7 @@ class InspectorUI : UIElement
 		Reset();
 
 		// Header
-		(verticalLayout.children[0] as Label)!.SetText($"{GetPrettyTypeName(node.GetType())}");
+		(verticalLayout.children[0] as Label)!.text = $"{GetPrettyTypeName(node.GetType())}";
 
 		FieldInfo[] fields = node.GetType().GetFields();
 

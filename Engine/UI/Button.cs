@@ -5,7 +5,7 @@ using CliqueEngine;
 
 namespace CliqueEngine.UI;
 
-public class Button : UIContent
+public class Button : Label
 {
 	const int FONT_SIZE = 20;
 	nint textTexture;
@@ -15,18 +15,8 @@ public class Button : UIContent
 	public event Method onClick = null!;
 	bool selected = false;
 	
-	public Button(string text) : base(new Vector2f(text.Length, 1f) * FONT_SIZE)
+	public Button(string text) : base(text)
 	{
-		nint surface = SDL_ttf.TTF_RenderText_Solid(UIRoot.UIFont, text, Color.white);
-		//nint surface = SDL_ttf.TTF_RenderText_Shaded(UIRoot.UIFont, text, Color.white, Color.black);
-
-		textTexture = SDL.SDL_CreateTextureFromSurface(UIRoot.SDLRenderer, surface);
-
-		SDL.SDL_QueryTexture(textTexture, out uint format, out int access, out int width, out int height);
-		textureSize = new Vector2f(width, height);
-
-		SDL.SDL_FreeSurface(surface);
-
 		Engine.instance.onClick += HandleClickEvent;
 	}
 
@@ -42,12 +32,7 @@ public class Button : UIContent
 		}
 
 		base.Render();
-	
-		//_renderRect(Color.grey);
-		
-		SDL.SDL_Rect source = new SDL.SDL_Rect().From(Vector2f.zero, textureSize);
-		SDL.SDL_Rect destination = new SDL.SDL_Rect().From(position, size);
-		SDL.SDL_RenderCopy(UIRoot.SDLRenderer, textTexture, ref source, ref destination);
+
 	}
 
 	void HandleClickEvent(Vector2f originPosition, Vector2f finalPosition)
