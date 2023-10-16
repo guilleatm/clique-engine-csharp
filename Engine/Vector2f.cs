@@ -15,6 +15,22 @@ public struct Vector2f
 		this.y = y;
 	}
 
+	public float Magnitude()
+	{
+		return MathF.Sqrt((x * x) + (y * y));
+	}
+
+	public Vector2f Normalized()
+	{
+		float magnitude = Magnitude();
+		if (magnitude > 1e-6f)
+		{
+			float inv = 1.0f / magnitude;		
+			return new Vector2f(x * inv, y * inv);
+		}
+		return new Vector2f(x, y);
+	}
+
 	public Vector2f Scale(Vector2f s)
 	{
 		return new Vector2f(x * s.x, y * s.y);

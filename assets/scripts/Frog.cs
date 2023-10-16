@@ -17,9 +17,9 @@ public class Frog : Renderable
 	public override void Start()
 	{
 		Random r = new Random();
-		float velocity = r.Next(1, 10) / 5f;
+		float velocity = r.Next(1, 40) / 5f;
 		
-		v = new Vector2f(1, 1) * velocity;
+		v = new Vector2f( (float) r.NextDouble(), (float) r.NextDouble()).Normalized() * velocity;
 
 		Engine.instance.onWindowResized += (int w, int h) => { limit.x = w; limit.y = h; };
 	}
