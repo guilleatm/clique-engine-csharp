@@ -1,5 +1,6 @@
 ﻿using SDL2;
 using CliqueEngine.Nodes;
+using CliqueEngine.Extensions;
 
 namespace CliqueEngine;
 
@@ -11,7 +12,7 @@ public partial class Engine
 	bool quit;
 	bool run;
 	public bool IsRunnig => run;
-	public RenderingServer renderingServer { get; protected set; } = null!;
+	WindowBase window;
 	public List<Node> nodes { get; private set; } = new List<Node>();
 	List<Behaviour> behaviours = new List<Behaviour>();
 	Queue<Behaviour> behavioursToStart = new Queue<Behaviour>();
@@ -21,7 +22,6 @@ public partial class Engine
 	public Engine()
 	{
 		instance = this;
-		renderingServer = new RenderingServer();
 	}
 
 	public void Start(bool editor = false)
@@ -29,19 +29,16 @@ public partial class Engine
 		const int TARGET_ELAPSED_MS = 1000 / TARGET_FPS;
 
 		SDL.SDL_Init(SDL.SDL_INIT_EVENTS);
-		renderingServer.Start();
-
-		if (editor)
-		{
-			renderingServer.CreateEditorUI();
-		}
-
-		// START
-
-		Console.WriteLine("Engine Start");
+		
+		window = new Window(new Vector2f(600, 600));
 
 
-		_startBehaviours();
+		WindowBase window2 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
+		window.AddChild(window2);
+		
+
+
+		//_startBehaviours();
 
 		uint lastFrameStart_ms = 0;
 
@@ -60,7 +57,9 @@ public partial class Engine
 				Update(delta);
 			}
 
-			renderingServer.Render();
+			window.Render();
+
+			//renderingServer.Render();
 
 
 			lastFrameStart_ms = start_ms;

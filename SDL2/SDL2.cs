@@ -3445,6 +3445,14 @@ namespace SDL2
 			byte a
 		);
 
+		public static int SDL_SetRenderDrawColor(
+			IntPtr renderer,
+			SDL_Color color
+		)
+		{
+			return SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+		}
+
 		/* renderer refers to an SDL_Renderer*, texture to an SDL_Texture* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SDL_SetRenderTarget(

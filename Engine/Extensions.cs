@@ -23,6 +23,17 @@ public static class Extensions
 		// return rect;
 	}
 
+	public static SDL.SDL_FRect From(this SDL.SDL_FRect rect, Vector2f position, Vector2f size)
+	{
+		return new SDL.SDL_FRect()
+		{
+			x = position.x,
+			y = position.y,
+			w = size.x,
+			h = size.y
+		};
+	}
+
 	public static SDL.SDL_Rect Overlap(this SDL.SDL_Rect rect, SDL.SDL_Rect other)
 	{
 		return new SDL.SDL_Rect()
@@ -44,6 +55,6 @@ public static class Extensions
 		int i = type.Name.LastIndexOf('.');
 		if (i == -1) return type.Name;
 		return type.Name.Substring(i, type.Name.Length - 1);
-	} 
+	}
 
 }
