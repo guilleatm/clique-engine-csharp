@@ -35,6 +35,12 @@ public partial class Engine
 
 		WindowBase window2 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
 		window.AddChild(window2);
+
+		WindowBase window3 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
+		window2.AddChild(window3);
+
+		WindowBase window4 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
+		window3.AddChild(window4);
 		
 
 

@@ -19,13 +19,7 @@ abstract class WindowBase
 		}
 		
 		child.renderer = renderer;
-		child.rect = new SDL.SDL_Rect()
-		{
-			x = (int) (rect.w * child.normalizedRect.x),
-			y = (int) (rect.h * child.normalizedRect.y),
-			w = (int) (rect.w * child.normalizedRect.w),
-			h = (int) (rect.h * child.normalizedRect.h)
-		};
+		SetChildRect(child);
 		children.Add(child);
 	}
 
@@ -40,11 +34,31 @@ abstract class WindowBase
 		}
 	}
 
+	protected void ResizeChildren()
+	{
+		if (children == null) return;
+		for (int i = 0; i < children.Count; i++)
+		{
+			SetChildRect(children[i]);
+			children[i].ResizeChildren();
+		}
+	}
 	void DrawRect(SDL.SDL_Color color)
 	{
 		SDL.SDL_SetRenderDrawColor(renderer, color);
 		SDL.SDL_RenderDrawRect(renderer, ref rect);
 	    SDL.SDL_SetRenderDrawColor(renderer, Color.black);
+	}
+
+	void SetChildRect(WindowBase child)
+	{
+		child.rect = new SDL.SDL_Rect()
+		{
+			x = (int) (rect.w * child.normalizedRect.x),
+			y = (int) (rect.h * child.normalizedRect.y),
+			w = (int) (rect.w * child.normalizedRect.w),
+			h = (int) (rect.h * child.normalizedRect.h)
+		};
 	}
 }
 
@@ -86,6 +100,13 @@ class Window : WindowBase
 		
 		rect = new SDL.SDL_Rect().From(Vector2f.zero, size);
 		//normalizedRect = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.one);
+
+		Engine.instance.onWindowResized += (int width, int height) => 
+		{
+			rect.w = width;
+			rect.h = height;
+			ResizeChildren();
+		};
 	}
 
 	public override void Render()
