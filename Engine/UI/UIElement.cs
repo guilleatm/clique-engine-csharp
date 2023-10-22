@@ -1,18 +1,40 @@
-﻿// using CliqueEngine.Extensions;
-// using SDL2;
+﻿using CliqueEngine.Extensions;
+using CliqueEngine.Nodes;
+using SDL2;
 
-// namespace CliqueEngine.UI;
+namespace CliqueEngine.UI;
 
-// public abstract class UIElement
+
+public abstract class UIElement : Component
+{
+	Transform _transform = null!;
+	public Transform transform
+	{
+		get
+		{
+			if (_transform == null)
+			{
+				_transform = node.Get<Transform>();
+			}
+			return _transform;
+		}
+		set => _transform = value;
+	}
+	public Vector2f size;
+	protected UIElement topUIElement = null!;
+	public abstract Vector2f GetSize(UIElement? _topUIElement = null);
+}
+
+// public abstract class UIElementOld
 // {
-// 	public List<UIElement> children { get; private set; } = new List<UIElement>();
+// 	public List<UIElementOld> children { get; private set; } = new List<UIElementOld>();
 // 	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
 // 	public Vector2f anchor = Vector2f.zero;
 // 	public bool enabled = true;
 
 
-// 	protected UIElement _parent = null!;
-// 	public virtual UIElement parent
+// 	protected UIElementOld _parent = null!;
+// 	public virtual UIElementOld parent
 // 	{
 // 		get => _parent;
 // 		set
@@ -61,12 +83,12 @@
 // 		}
 // 	}
 
-// 	protected virtual void FreeChildren(UIElement _children)
+// 	protected virtual void FreeChildren(UIElementOld _children)
 // 	{
 // 		children.Remove(_children);
 // 	}
 
-// 	public virtual void AddChildren(UIElement child)
+// 	public virtual void AddChildren(UIElementOld child)
 // 	{
 // 		child.localPosition = Vector2f.zero;
 // 		children.Add(child);

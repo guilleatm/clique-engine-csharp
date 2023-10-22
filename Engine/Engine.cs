@@ -30,17 +30,22 @@ public partial class Engine
 		window = new Window(new Vector2f(600, 600));
 
 
-		SubWindow window2 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
+		SubWindow window2 = new SubWindow(new SDL.SDL_FRect().From(new Vector2f(.2f, .1f), Vector2f.one * .5f));
 		window.AddChild(window2);
 
-		Node n = new Node();
-		Transform t = new Transform();
-		Sprite s = new Sprite();
+		UILayoutNode layout = new UILayoutNode();
+		LabelNode n = new LabelNode();
+		LabelNode n1 = new LabelNode();
+		LabelNode n2 = new LabelNode();
 
-		n.Add(t);
-		n.Add(s);
+		(layout as IParentable).AddChild(n);
+		(layout as IParentable).AddChild(n1);
+		(layout as IParentable).AddChild(n2);
 
-		window2.AddNode(n);
+		UILayoutNode layout2 = new UILayoutNode();
+		(layout2 as IParentable).AddChild(n1);
+
+		window2.AddNode(layout);
 
 		window.Start();
 

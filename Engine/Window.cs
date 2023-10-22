@@ -17,7 +17,7 @@ public abstract class WindowBase : INodeContainer
 	public static WindowBase active => stack.Peek();
 	static Stack<WindowBase> stack = new Stack<WindowBase>();
 
-	protected nint renderer;
+	public nint renderer;
 	List<WindowBase> children = new List<WindowBase>();
 	
 	protected SDL.SDL_FRect normalizedRect;
@@ -44,8 +44,9 @@ public abstract class WindowBase : INodeContainer
 	public virtual void Update()
 	{
 		stack.Push(this);
-
-		DrawRect(Color.white);
+		
+		SDL.SDL_Rect r = new SDL.SDL_Rect().From(Vector2f.zero, new Vector2f(rect.w, rect.h));
+		DrawRect(Color.white, ref r);
 		for (int i = 0; i < children.Count; i++)
 		{
 			children[i].Update();
@@ -82,10 +83,12 @@ public abstract class WindowBase : INodeContainer
 			children[i].ResizeChildren();
 		}
 	}
-	void DrawRect(SDL.SDL_Color color)
+	public void DrawRect(SDL.SDL_Color color, ref SDL.SDL_Rect destinationRect)
 	{
+		SDL.SDL_Rect translatedDestinationRect = destinationRect.Translate(new Vector2f(rect.x, rect.y));
+
 		SDL.SDL_SetRenderDrawColor(renderer, color);
-		SDL.SDL_RenderDrawRect(renderer, ref rect);
+		SDL.SDL_RenderDrawRect(renderer, ref translatedDestinationRect);
 	    SDL.SDL_SetRenderDrawColor(renderer, Color.black);
 	}
 
@@ -112,7 +115,8 @@ public abstract class WindowBase : INodeContainer
 	// DRAW CALLS
 	public void Draw(nint texture, ref SDL.SDL_Rect sourceRect, ref SDL.SDL_Rect destinationRect)
 	{
-		SDL.SDL_RenderCopy(renderer, texture, ref sourceRect, ref destinationRect);
+		SDL.SDL_Rect translatedDestinationRect = destinationRect.Translate(new Vector2f(rect.x, rect.y));
+		SDL.SDL_RenderCopy(renderer, texture, ref sourceRect, ref translatedDestinationRect);
 	}
 
 	public nint CreateTexture(string path)

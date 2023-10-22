@@ -34,6 +34,17 @@ public static class Extensions
 		};
 	}
 
+	public static SDL.SDL_Rect Translate(this SDL.SDL_Rect rect, Vector2f position)
+	{
+		return new SDL.SDL_Rect()
+		{
+			x = (int) (rect.x + position.x),
+			y = (int) (rect.y + position.y),
+			w = rect.w,
+			h = rect.h
+		};
+	}
+
 	public static SDL.SDL_Rect Overlap(this SDL.SDL_Rect rect, SDL.SDL_Rect other)
 	{
 		return new SDL.SDL_Rect()
