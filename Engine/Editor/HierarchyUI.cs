@@ -1,77 +1,77 @@
-using System.Reflection;
-using CliqueEngine.UI;
-using CliqueEngine.Nodes;
+// using System.Reflection;
+// using CliqueEngine.UI;
+// using CliqueEngine.Nodes;
 
-namespace CliqueEngine.Editor;
+// namespace CliqueEngine.Editor;
 
-class HierarchyUI : UIElement
-{
-	VerticalLayout verticalLayout;
-	Button addNodeBtn;
-	public Grabber grabber;
+// class HierarchyUI : UIElement
+// {
+// 	VerticalLayout verticalLayout;
+// 	Button addNodeBtn;
+// 	public Grabber grabber;
 
-	public InspectorUI? inspector { get; set; }
+// 	public InspectorUI? inspector { get; set; }
 
-	public HierarchyUI(UIRoot root) : base()
-	{
-		parent = root;
+// 	public HierarchyUI(UIRoot root) : base()
+// 	{
+// 		parent = root;
 
-		Engine.instance.onNodeAdded += OnNodeAdded;
+// 		Engine.instance.onNodeAdded += OnNodeAdded;
 		
-		verticalLayout = new VerticalLayout() { parent = this };
-		addNodeBtn = new Button("Create Node") { parent = verticalLayout };
+// 		verticalLayout = new VerticalLayout() { parent = this };
+// 		addNodeBtn = new Button("Create Node") { parent = verticalLayout };
 
-		addNodeBtn.onClick += DisplayNodeTypes;
+// 		addNodeBtn.onClick += DisplayNodeTypes;
 
-		List<Node> nodes = Engine.instance.nodes;
-		for (int i = 0; i < nodes.Count; i++)
-		{
-			HierarchyLabel label = new HierarchyLabel(nodes[i], this) { parent = verticalLayout };
-		}
-	}
+// 		List<Node> nodes = Engine.instance.nodes;
+// 		for (int i = 0; i < nodes.Count; i++)
+// 		{
+// 			HierarchyLabel label = new HierarchyLabel(nodes[i], this) { parent = verticalLayout };
+// 		}
+// 	}
 
-	void OnNodeAdded(Node node)
-	{
-		CreateNodeLabel(node);
-	}
+// 	void OnNodeAdded(Node node)
+// 	{
+// 		CreateNodeLabel(node);
+// 	}
 
-	void DisplayNodeTypes()
-	{
-		VerticalLayout nodeOptions = new VerticalLayout() { parent = addNodeBtn };
+// 	void DisplayNodeTypes()
+// 	{
+// 		VerticalLayout nodeOptions = new VerticalLayout() { parent = addNodeBtn };
 
-		Method removeNodeOptionsUI = () => nodeOptions.Free();
+// 		Method removeNodeOptionsUI = () => nodeOptions.Free();
 
-		string namespaceName = "CliqueEngine.Nodes";
-		string customNamespace = nameof(Nodes);
-		Type[] types = Assembly.GetExecutingAssembly().GetTypes().Where( d => d.Namespace != null && (d.Namespace == namespaceName || d.Namespace!.StartsWith( customNamespace ))).ToArray();
+// 		string namespaceName = "CliqueEngine.Nodes";
+// 		string customNamespace = nameof(Nodes);
+// 		Type[] types = Assembly.GetExecutingAssembly().GetTypes().Where( d => d.Namespace != null && (d.Namespace == namespaceName || d.Namespace!.StartsWith( customNamespace ))).ToArray();
 
-		for (int i = 0; i < types.Length; i++)
-		{
-			int _index = i;
+// 		for (int i = 0; i < types.Length; i++)
+// 		{
+// 			int _index = i;
 
-			Button b = new Button($"{types[i].Name}") { parent = nodeOptions };
-			b.onClick += () => CreateNode(types[_index]);
-			b.onClick += removeNodeOptionsUI;
-		}
+// 			Button b = new Button($"{types[i].Name}") { parent = nodeOptions };
+// 			b.onClick += () => CreateNode(types[_index]);
+// 			b.onClick += removeNodeOptionsUI;
+// 		}
 
-	}
+// 	}
 
-	void CreateNode(Type type)
-	{
-		// This is slow but ParameterInfo.GetParameters() has to be overriden in derived classes
-		try
-		{
-			Node? node = (Node?) Activator.CreateInstance(type);
-		}
-		catch (MissingMethodException _)
-		{
-			Console.WriteLine($"Couldn't create node of type {type.Name}");
-		}
-	}
+// 	void CreateNode(Type type)
+// 	{
+// 		// This is slow but ParameterInfo.GetParameters() has to be overriden in derived classes
+// 		try
+// 		{
+// 			Node? node = (Node?) Activator.CreateInstance(type);
+// 		}
+// 		catch (MissingMethodException _)
+// 		{
+// 			Console.WriteLine($"Couldn't create node of type {type.Name}");
+// 		}
+// 	}
 
-	void CreateNodeLabel(Node node)
-	{
-		HierarchyLabel label = new HierarchyLabel(node, this) { parent = verticalLayout };
-		node.onFreed += (Node n) => label.Free();
-	}
-}
+// 	void CreateNodeLabel(Node node)
+// 	{
+// 		HierarchyLabel label = new HierarchyLabel(node, this) { parent = verticalLayout };
+// 		node.onFreed += (Node n) => label.Free();
+// 	}
+// }

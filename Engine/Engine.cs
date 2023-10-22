@@ -12,12 +12,9 @@ public partial class Engine
 	bool quit;
 	bool run;
 	public bool IsRunnig => run;
-	WindowBase window;
-	public List<Node> nodes { get; private set; } = new List<Node>();
-	List<Behaviour> behaviours = new List<Behaviour>();
-	Queue<Behaviour> behavioursToStart = new Queue<Behaviour>();
-
-	public int nodeCount => nodes.Count;
+	Window window;
+	// List<Behaviour> behaviours = new List<Behaviour>();
+	// Queue<Behaviour> behavioursToStart = new Queue<Behaviour>();
 
 	public Engine()
 	{
@@ -33,14 +30,20 @@ public partial class Engine
 		window = new Window(new Vector2f(600, 600));
 
 
-		WindowBase window2 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
+		SubWindow window2 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
 		window.AddChild(window2);
 
-		WindowBase window3 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
-		window2.AddChild(window3);
+		Node n = new Node();
+		Transform t = new Transform();
+		Sprite s = new Sprite();
 
-		WindowBase window4 = new SubWindow(new SDL.SDL_FRect().From(Vector2f.zero, Vector2f.one * .5f));
-		window3.AddChild(window4);
+		n.Add(t);
+		n.Add(s);
+
+		window2.AddNode(n);
+
+		window.Start();
+
 		
 
 
@@ -63,7 +66,7 @@ public partial class Engine
 				Update(delta);
 			}
 
-			window.Render();
+			window.Update();
 
 			//renderingServer.Render();
 
@@ -93,29 +96,29 @@ public partial class Engine
 		run = true;
 	}
 
-	void _startBehaviours()
-	{
-		while( behavioursToStart.Count > 0)
-		{
-			Behaviour b = behavioursToStart.Dequeue();
-			if (b.enabled)
-			{
-				b.Start();
-			}
-		}
-	}
+	// void _startBehaviours()
+	// {
+	// 	while( behavioursToStart.Count > 0)
+	// 	{
+	// 		Behaviour b = behavioursToStart.Dequeue();
+	// 		if (b.enabled)
+	// 		{
+	// 			b.Start();
+	// 		}
+	// 	}
+	// }
 
 	void Update(float delta)
 	{
-		_startBehaviours();
+		// _startBehaviours();
 
-		for (int i = 0; i < behaviours.Count; i++)
-		{
-			if (behaviours[i].enabled)
-			{
-				behaviours[i].Update(delta);
-			}
-		}
+		// for (int i = 0; i < behaviours.Count; i++)
+		// {
+		// 	if (behaviours[i].enabled)
+		// 	{
+		// 		behaviours[i].Update(delta);
+		// 	}
+		// }
 	}
 
 	Vector2f mousePosition;
@@ -158,21 +161,21 @@ public partial class Engine
 		}
 	}
 
-	public void AddResource(Node node)
-	{
-		nodes.Add(node);
-		onNodeAdded?.Invoke(node);
-	}
+	// public void AddResource(Node node)
+	// {
+	// 	nodes.Add(node);
+	// 	onNodeAdded?.Invoke(node);
+	// }
 
-	public void FreeResource(Node node)
-	{
-		nodes.Remove(node);
-	}
+	// public void FreeResource(Node node)
+	// {
+	// 	nodes.Remove(node);
+	// }
 
-	public void AddResource(Behaviour behaviour)
-	{
-		behaviours.Add(behaviour);
-		behavioursToStart.Enqueue(behaviour);
-	}
+	// public void AddResource(Behaviour behaviour)
+	// {
+	// 	behaviours.Add(behaviour);
+	// 	behavioursToStart.Enqueue(behaviour);
+	// }
 
 }

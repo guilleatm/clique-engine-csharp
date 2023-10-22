@@ -1,16 +1,66 @@
 using CliqueEngine.Extensions;
+using CliqueEngine.Nodes;
 using CliqueEngine.UI;
 using SDL2;
 
 namespace CliqueEngine;
-abstract class WindowBase
+
+interface INodeContainer
 {
+	public List<Node> nodes { get; set; }
+	public void AddNode(Node node);
+}
+
+
+public abstract class WindowBase : INodeContainer
+{
+	public static WindowBase active => stack.Peek();
+	static Stack<WindowBase> stack = new Stack<WindowBase>();
+
 	protected nint renderer;
-	List<WindowBase> children = null!;
+	List<WindowBase> children = new List<WindowBase>();
 	
 	protected SDL.SDL_FRect normalizedRect;
-	protected SDL.SDL_Rect rect;	
+	protected SDL.SDL_Rect rect;
+
+	// SPREAD CALLS
+	public virtual void Start()
+	{
+		stack.Push(this);
+
+		for (int i = 0; i < children.Count; i++)
+		{
+			children[i].Start();
+		}
+
+		for (int i = 0; i < nodes.Count; i++)
+		{
+			nodes[i].Start();
+		}
+
+		stack.Pop();
+	}
+
+	public virtual void Update()
+	{
+		stack.Push(this);
+
+		DrawRect(Color.white);
+		for (int i = 0; i < children.Count; i++)
+		{
+			children[i].Update();
+		}
+
+		for (int i = 0; i < nodes.Count; i++)
+		{
+			nodes[i].Update();
+		}
+
+		stack.Pop();
+	}
+
 	
+	// MANAGE WINDOWS
 	public void AddChild(WindowBase child)
 	{
 		if (children == null)
@@ -21,17 +71,6 @@ abstract class WindowBase
 		child.renderer = renderer;
 		SetChildRect(child);
 		children.Add(child);
-	}
-
-	public virtual void Render()
-	{
-		DrawRect(Color.white);
-
-		if (children == null) return;
-		for (int i = 0; i < children.Count; i++)
-		{
-			children[i].Render();
-		}
 	}
 
 	protected void ResizeChildren()
@@ -60,10 +99,30 @@ abstract class WindowBase
 			h = (int) (rect.h * child.normalizedRect.h)
 		};
 	}
+
+
+	// MANAGE NODES
+	public List<Node> nodes { get; set; } = new List<Node>();
+
+	public void AddNode(Node node)
+	{
+		nodes.Add(node);
+	}
+
+	// DRAW CALLS
+	public void Draw(nint texture, ref SDL.SDL_Rect sourceRect, ref SDL.SDL_Rect destinationRect)
+	{
+		SDL.SDL_RenderCopy(renderer, texture, ref sourceRect, ref destinationRect);
+	}
+
+	public nint CreateTexture(string path)
+	{
+		return SDL_image.IMG_LoadTexture(renderer, path);
+	}
 }
 
 
-class SubWindow : WindowBase
+public class SubWindow : WindowBase
 {
 	public SubWindow(SDL.SDL_FRect _normalizedRect)
 	{
@@ -71,7 +130,7 @@ class SubWindow : WindowBase
 	}
 }
 
-class Window : WindowBase
+public class Window : WindowBase
 {
 	public Window(Vector2f size)
 	{
@@ -109,9 +168,9 @@ class Window : WindowBase
 		};
 	}
 
-	public override void Render()
+	public override void Update()
 	{
-		base.Render();
+		base.Update();
 
 		SDL.SDL_RenderPresent(renderer);
 		SDL.SDL_RenderClear(renderer);

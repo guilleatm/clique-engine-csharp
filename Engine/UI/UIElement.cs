@@ -1,118 +1,118 @@
-﻿using CliqueEngine.Extensions;
-using SDL2;
+﻿// using CliqueEngine.Extensions;
+// using SDL2;
 
-namespace CliqueEngine.UI;
+// namespace CliqueEngine.UI;
 
-public abstract class UIElement
-{
-	public List<UIElement> children { get; private set; } = new List<UIElement>();
-	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
-	public Vector2f anchor = Vector2f.zero;
-	public bool enabled = true;
-
-
-	protected UIElement _parent = null!;
-	public virtual UIElement parent
-	{
-		get => _parent;
-		set
-		{
-			_parent = value;
-			_parent.AddChildren(this);
-		}
-	}
-	protected Vector2f _size;
-	public virtual Vector2f size
-	{
-		get => _size;
-		set => _size = value;
-	}
-
-	public Vector2f localPosition { get; set; }
-	public virtual Vector2f position
-	{ 
-		get
-		{
-			if (parent == null) return Vector2f.zero;
-			return parent.position + localPosition - size.Scale(anchor);
-		}
-	}
+// public abstract class UIElement
+// {
+// 	public List<UIElement> children { get; private set; } = new List<UIElement>();
+// 	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
+// 	public Vector2f anchor = Vector2f.zero;
+// 	public bool enabled = true;
 
 
+// 	protected UIElement _parent = null!;
+// 	public virtual UIElement parent
+// 	{
+// 		get => _parent;
+// 		set
+// 		{
+// 			_parent = value;
+// 			_parent.AddChildren(this);
+// 		}
+// 	}
+// 	protected Vector2f _size;
+// 	public virtual Vector2f size
+// 	{
+// 		get => _size;
+// 		set => _size = value;
+// 	}
 
-	public virtual void Render()
-	{
-		if (!enabled) return;
-		for (int i = 0; i < children.Count; i++)
-		{
-			children[i].Render();
-		}
-	}
+// 	public Vector2f localPosition { get; set; }
+// 	public virtual Vector2f position
+// 	{ 
+// 		get
+// 		{
+// 			if (parent == null) return Vector2f.zero;
+// 			return parent.position + localPosition - size.Scale(anchor);
+// 		}
+// 	}
 
-	public virtual void Free()
-	{
-		parent.FreeChildren(this);
 
-		parent.UpdateSize();
 
-		for (int i = children.Count - 1; i >= 0; i--)
-		{
-			children[i].Free();
-		}
-	}
+// 	public virtual void Render()
+// 	{
+// 		if (!enabled) return;
+// 		for (int i = 0; i < children.Count; i++)
+// 		{
+// 			children[i].Render();
+// 		}
+// 	}
 
-	protected virtual void FreeChildren(UIElement _children)
-	{
-		children.Remove(_children);
-	}
+// 	public virtual void Free()
+// 	{
+// 		parent.FreeChildren(this);
 
-	public virtual void AddChildren(UIElement child)
-	{
-		child.localPosition = Vector2f.zero;
-		children.Add(child);
-		UpdateSize();
-	}
+// 		parent.UpdateSize();
 
-	public void UpdateSize() // protected better but :(
-	{
-		SDL.SDL_Rect r = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.zero);
-		for (int i = 0; i < children.Count; i++)
-		{
-			r = r.Overlap( new SDL.SDL_Rect().From(children[i].localPosition, children[i].size) );
-		}
-		size = new Vector2f(r.w, r.h);
+// 		for (int i = children.Count - 1; i >= 0; i--)
+// 		{
+// 			children[i].Free();
+// 		}
+// 	}
 
-		if (this is UIRoot) return;
+// 	protected virtual void FreeChildren(UIElement _children)
+// 	{
+// 		children.Remove(_children);
+// 	}
 
-		if (parent == null)
-		{
-			throw new NullReferenceException($"UIElement of type {GetType()} has no parent.");
-		}
+// 	public virtual void AddChildren(UIElement child)
+// 	{
+// 		child.localPosition = Vector2f.zero;
+// 		children.Add(child);
+// 		UpdateSize();
+// 	}
 
-		parent.UpdateSize();
-	}
+// 	public void UpdateSize() // protected better but :(
+// 	{
+// 		SDL.SDL_Rect r = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.zero);
+// 		for (int i = 0; i < children.Count; i++)
+// 		{
+// 			r = r.Overlap( new SDL.SDL_Rect().From(children[i].localPosition, children[i].size) );
+// 		}
+// 		size = new Vector2f(r.w, r.h);
 
-	protected void _renderFillRect(SDL.SDL_Color? color = null)
-	{
-		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+// 		if (this is UIRoot) return;
 
-		_setColor(color ?? Color.grey);
-		SDL.SDL_RenderFillRect(UIRoot.SDLRenderer, ref rect);
-	    _setColor(Color.black);
-	}
+// 		if (parent == null)
+// 		{
+// 			throw new NullReferenceException($"UIElement of type {GetType()} has no parent.");
+// 		}
 
-	protected void _renderRect(SDL.SDL_Color? color = null)
-	{
-		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+// 		parent.UpdateSize();
+// 	}
 
-		_setColor(color ?? Color.grey);
-		SDL.SDL_RenderDrawRect(UIRoot.SDLRenderer, ref rect);
-	    _setColor(Color.black);
-	}
+// 	protected void _renderFillRect(SDL.SDL_Color? color = null)
+// 	{
+// 		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
 
-	void _setColor(SDL.SDL_Color color)
-	{
-	    SDL.SDL_SetRenderDrawColor(UIRoot.SDLRenderer, color.r, color.g, color.b, color.a);
-	}
+// 		_setColor(color ?? Color.grey);
+// 		SDL.SDL_RenderFillRect(UIRoot.SDLRenderer, ref rect);
+// 	    _setColor(Color.black);
+// 	}
 
-}
+// 	protected void _renderRect(SDL.SDL_Color? color = null)
+// 	{
+// 		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+
+// 		_setColor(color ?? Color.grey);
+// 		SDL.SDL_RenderDrawRect(UIRoot.SDLRenderer, ref rect);
+// 	    _setColor(Color.black);
+// 	}
+
+// 	void _setColor(SDL.SDL_Color color)
+// 	{
+// 	    SDL.SDL_SetRenderDrawColor(UIRoot.SDLRenderer, color.r, color.g, color.b, color.a);
+// 	}
+
+// }
