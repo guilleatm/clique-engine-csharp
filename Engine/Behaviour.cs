@@ -1,15 +1,15 @@
-﻿// namespace CliqueEngine.Nodes;
+﻿namespace CliqueEngine.Nodes;
 
-// public class Behaviour : Node
-// {
-// 	public bool enabled { get; protected set; } = true;
-// 	public virtual void Start() {}
-// 	public virtual void Update( float delta ) {}
+public class Behaviour : Component
+{
+	public bool enabled { get; protected set; } = true;
+	public virtual void Start() {}
+	public virtual void Update( float delta ) {}
 
 
-// 	public Behaviour() : base()
-// 	{
-// 		Engine.instance.AddResource(this);
-// 	}
+	public Behaviour()
+	{
+		BehavioursService.instance.AddResource(this);
+	}
 
-// }
+}

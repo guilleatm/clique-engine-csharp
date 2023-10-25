@@ -7,22 +7,22 @@ namespace CliqueEngine.UI;
 
 public abstract class UIElement : Component
 {
-	Transform _transform = null!;
-	public Transform transform
-	{
-		get
-		{
-			if (_transform == null)
-			{
-				_transform = node.Get<Transform>();
-			}
-			return _transform;
-		}
-		set => _transform = value;
-	}
-	public Vector2f size;
-	protected UIElement topUIElement = null!;
-	public abstract Vector2f GetSize(UIElement? _topUIElement = null);
+	// Transform _transform = null!;
+	// public Transform transform
+	// {
+	// 	get
+	// 	{
+	// 		if (_transform == null)
+	// 		{
+	// 			//_transform = node.Get<Transform>();
+	// 		}
+	// 		return _transform;
+	// 	}
+	// 	set => _transform = value;
+	// }
+	// public Vector2f size;
+	// protected UIElement topUIElement = null!;
+	// public abstract Vector2f GetSize(UIElement? _topUIElement = null);
 }
 
 // public abstract class UIElementOld

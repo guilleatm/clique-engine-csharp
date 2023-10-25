@@ -12,9 +12,8 @@ public partial class Engine
 	bool quit;
 	bool run;
 	public bool IsRunnig => run;
-	Window window;
-	// List<Behaviour> behaviours = new List<Behaviour>();
-	// Queue<Behaviour> behavioursToStart = new Queue<Behaviour>();
+
+	List<IService> services = new List<IService>();
 
 	public Engine()
 	{
@@ -26,33 +25,22 @@ public partial class Engine
 		const int TARGET_ELAPSED_MS = 1000 / TARGET_FPS;
 
 		SDL.SDL_Init(SDL.SDL_INIT_EVENTS);
-		
-		window = new Window(new Vector2f(600, 600));
 
 
-		SubWindow window2 = new SubWindow(new SDL.SDL_FRect().From(new Vector2f(.2f, .1f), Vector2f.one * .5f));
-		window.AddChild(window2);
 
-		UILayoutNode layout = new UILayoutNode();
-		LabelNode n = new LabelNode();
-		LabelNode n1 = new LabelNode();
-		LabelNode n2 = new LabelNode();
+		RenderingService renderingService = new RenderingService();
+		BehavioursService behavioursService = new BehavioursService();
 
-		(layout as IParentable).AddChild(n);
-		(layout as IParentable).AddChild(n1);
-		(layout as IParentable).AddChild(n2);
+		services.AddRange( new List<IService>() { renderingService, behavioursService } );
 
-		UILayoutNode layout2 = new UILayoutNode();
-		(layout2 as IParentable).AddChild(n1);
 
-		window2.AddNode(layout);
-
-		window.Start();
+		// Start services
+		for (int i = 0; i < services.Count; i++)
+		{
+			services[i].Start();
+		}
 
 		
-
-
-		//_startBehaviours();
 
 		uint lastFrameStart_ms = 0;
 
@@ -68,13 +56,12 @@ public partial class Engine
 			{
 				float delta = (start_ms - lastFrameStart_ms) / 1000f;
 
-				Update(delta);
+				// Update services
+				for (int i = 0; i < services.Count; i++)
+				{
+					services[i].Update(delta);
+				}
 			}
-
-			window.Update();
-
-			//renderingServer.Render();
-
 
 			lastFrameStart_ms = start_ms;
 
@@ -113,18 +100,6 @@ public partial class Engine
 	// 	}
 	// }
 
-	void Update(float delta)
-	{
-		// _startBehaviours();
-
-		// for (int i = 0; i < behaviours.Count; i++)
-		// {
-		// 	if (behaviours[i].enabled)
-		// 	{
-		// 		behaviours[i].Update(delta);
-		// 	}
-		// }
-	}
 
 	Vector2f mousePosition;
 	void HandleSDLEvents()

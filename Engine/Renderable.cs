@@ -1,6 +1,25 @@
-﻿// using SDL2;
+﻿using SDL2;
 
-// namespace CliqueEngine.Nodes;
+namespace CliqueEngine.Nodes;
+
+
+public class Renderable : Component
+{
+	public Transform transform = null!;
+	public Vector2f size;
+	public nint texture;
+
+	public Renderable()
+	{
+		RenderingService.instance.AddResource(this);
+	}
+
+	public void Created()
+	{
+		transform = node.GetComponent<Transform>();
+	}
+
+}
 
 // public class Renderable : Behaviour
 // {
