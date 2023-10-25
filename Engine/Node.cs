@@ -23,16 +23,23 @@ public class Node
 
 	public Node()
 	{
-
+		// Use _AddComponent()
 
 		// Call IComponent.Created() for component initialization
 		for (int i = 0; i < components.Count; i++)
 		{
-			components[i].Created();
+			components[i].OnCreated();
 		}
 	}
 
 	public T AddComponent<T>() where T : IComponent, new()
+	{
+		T component = _AddComponent<T>();
+		component.OnCreated();
+		return component;
+	}
+
+	T _AddComponent<T>() where T : IComponent, new()
 	{
 		T component = new T();
 		component.node = this;

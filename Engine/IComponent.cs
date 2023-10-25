@@ -8,5 +8,5 @@ public interface IComponent
 	/// Called when Node constructor has finished and all components are created.
 	/// From here, it is safe to access other Node Components
 	/// </summary>
-	public void Created() {}
+	public void OnCreated();
 }

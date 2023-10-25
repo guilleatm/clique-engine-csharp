@@ -59,4 +59,9 @@ public class RenderingService : IService
 		SDL.SDL_RenderPresent(renderer);
 		SDL.SDL_RenderClear(renderer);
 	}
+
+	public nint CreateTexture(string path)
+	{
+		return SDL_image.IMG_LoadTexture(renderer, path);
+	}
 }

@@ -12,4 +12,7 @@ public class Component : IComponent
 			_node = value;
 		}
 	}
+
+	public virtual void OnCreated() {}
+
 }

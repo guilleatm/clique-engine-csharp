@@ -16,5 +16,6 @@ public class Frog : Behaviour
 	{
 		time += delta;
 		Console.WriteLine(time);
+		node.GetComponent<Transform>().position += Vector2f.one;
 	}
 }
