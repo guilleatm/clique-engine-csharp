@@ -12,8 +12,15 @@ public abstract class UIElement : Component
 	public Vector2f position;
 	public Vector2f size;
 
-	List<UIElement> children = new List<UIElement>();
+	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
+
+	protected List<UIElement> children = new List<UIElement>();
 	UIElement parent = null!;
+
+	public UIElement()
+	{
+		UIService.instance.AddResource(this);
+	}
 
 	public virtual void Start()
 	{
@@ -27,11 +34,13 @@ public abstract class UIElement : Component
 		}
 	}
 
-	public abstract void Draw(nint renderer);
+	public virtual Vector2f GetSize() => throw new InvalidOperationException($"{nameof(GetSize)} of {GetType()} is not overwritten.");
 
-	protected void DrawRect(nint renderer, SDL.SDL_Color color)
+	public virtual void Draw(nint renderer) {}
+
+	protected void DrawRect(nint renderer, SDL.SDL_Color color, int offset = 0)
 	{
-		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position + Vector2f.one * offset, size - Vector2f.one * 2 * offset);
 		SDL.SDL_Color previous = GetColor(renderer);
 		SetColor(renderer, color);
 		SDL.SDL_RenderFillRect(renderer, ref rect);
@@ -60,31 +69,6 @@ public abstract class UIElement : Component
 	}
 }
 
-public class UILayout : UIElement
-{
-	public override void Start()
-	{
-		base.Start();
-		node.onNodeAdded += OnNodeAdded;
-		node.onNodeRemoved += OnNodeRemoved;
-
-	}
-
-	void OnNodeAdded(Node node)
-	{
-		throw new NotImplementedException();
-	}
-
-	void OnNodeRemoved(Node node)
-	{
-		throw new NotImplementedException();
-	}
-
-	public override void Draw(nint renderer)
-	{
-		DrawRectOutline(renderer, Color.white);
-	}
-}
 
 // public abstract class UIElementOld
 // {

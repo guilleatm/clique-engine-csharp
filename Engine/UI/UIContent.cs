@@ -1,9 +1,27 @@
-﻿// using CliqueEngine.Extensions;
-// using SDL2;
+﻿using System.Net.Http.Headers;
+using CliqueEngine.Extensions;
+using SDL2;
 
-// namespace CliqueEngine.UI;
+namespace CliqueEngine.UI;
 
-// public class UIContent : UIElement
+class UIContent : UIElement
+{
+	public UIContent() : base()
+	{
+		size = new Vector2f(60, 60);
+	}
+
+	public override Vector2f GetSize() => size;
+	public override void Draw(nint renderer)
+	{
+		DrawRect(renderer, Color.green, offset: 1);
+	}
+}
+
+
+
+
+//  class UIContent : UIElement
 // {
 // 	public override Vector2f size
 // 	{

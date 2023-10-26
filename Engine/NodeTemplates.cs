@@ -6,12 +6,12 @@ public class Sprite : Node
 	public Sprite() : base(new [] { typeof(Transform), typeof(Renderable)} ) {}
 }
 
-public class UILayoutNode : Node
+public class UIVerticalLayoutNode : Node
 {
-	public UILayoutNode() : base(new [] { typeof(UILayout)} ) {}
+	public UIVerticalLayoutNode() : base(new [] { typeof(UIVerticalLayout)} ) {}
 }
 
-// public class UIContentNode : Node
-// {
-// 	public UIContentNode() : base(new [] { typeof(UIContent)} ) {}
-// }
+public class UIContentNode : Node
+{
+	public UIContentNode() : base(new [] { typeof(UIContent)} ) {}
+}

@@ -7,6 +7,8 @@ namespace CliqueEngine;
 public class RenderingService : IService
 {
 	public static RenderingService instance = null!;
+	public static nint window; // C# not sure
+
 
 	nint renderer;
 	List<Renderable> renderables = new List<Renderable>();
@@ -16,7 +18,7 @@ public class RenderingService : IService
 		instance = this;
 
 		CreateWindowAndRenderer();
-		SDL.SDL_GetRenderer(renderer);
+		renderer = SDL.SDL_GetRenderer(window);
 
 	}
 
@@ -41,6 +43,8 @@ public class RenderingService : IService
 		}
 		SDL.SDL_SetWindowIcon(_window, icon);
 		SDL.SDL_SetWindowTitle(_window, "Clique Engine");
+
+		window = _window;
 	}
 	
 	public void AddResource(IComponent resource)
@@ -65,8 +69,10 @@ public class RenderingService : IService
 			SDL.SDL_RenderCopy(renderer, renderables[i].texture, ref sourceRect, ref destinationRect);
 		}
 
-		SDL.SDL_RenderPresent(renderer);
-		SDL.SDL_RenderClear(renderer);
+
+		// #C Depending if there is UIService or not
+		// SDL.SDL_RenderPresent(renderer);
+		// SDL.SDL_RenderClear(renderer);
 	}
 
 	public nint CreateTexture(string path)

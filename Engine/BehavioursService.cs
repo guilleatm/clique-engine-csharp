@@ -21,10 +21,6 @@ public class BehavioursService : IService
 
 	public void Start()
 	{
-
-		Node node = new Node(new [] { typeof(Transform), typeof(Renderable), typeof(Frog) });
-		
-		node.GetComponent<Renderable>().SetTexture("assets/frog_square_32x32.png");
 		for (int i = 0; i < behaviours.Count; i++)
 		{
 			behaviours[i].Start();

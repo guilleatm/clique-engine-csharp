@@ -6,12 +6,14 @@ namespace CliqueEngine.UI;
 
 public class UIRoot : UILayout
 {
-	public UIRoot()
+	public UIRoot() : base()
 	{
 		position = Vector2f.zero;
 		size = Engine.instance.windowSize;
 		Engine.instance.onWindowResized += OnWindowResized;
 	}
+
+	public override Vector2f GetSize() => size;
 
 	void OnWindowResized (int width, int height)
 	{

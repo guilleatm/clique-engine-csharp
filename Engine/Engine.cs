@@ -1,6 +1,7 @@
 ﻿using SDL2;
 using CliqueEngine.Nodes;
 using CliqueEngine.Extensions;
+using Nodes;
 
 namespace CliqueEngine;
 
@@ -26,14 +27,32 @@ public partial class Engine
 
 		SDL.SDL_Init(SDL.SDL_INIT_EVENTS);
 
-
-
 		RenderingService renderingService = new RenderingService();
 		BehavioursService behavioursService = new BehavioursService();
 		UIService uiService = new UIService();
 
-
 		services.AddRange( new List<IService>() { renderingService, behavioursService, uiService } );
+
+
+		// #C CREATE TREE
+
+		Node node = new Node(new [] { typeof(Transform), typeof(Renderable), typeof(Frog) });
+		node.GetComponent<Renderable>().SetTexture("assets/frog_square_32x32.png");
+
+
+		var a = new UIVerticalLayoutNode();
+		var b = new UIVerticalLayoutNode();
+		var c = new UIVerticalLayoutNode();
+		var d = new UIContentNode();
+		var e = new UIContentNode();
+
+
+		a.AddNode(b);
+		a.AddNode(c);
+		b.AddNode(d);
+		b.AddNode(e);
+
+
 
 
 		// Start services
