@@ -6,9 +6,11 @@ namespace CliqueEngine.UI;
 
 public class UIRoot : UILayout
 {
+	public override Vector2f globalPosition => localPosition;
+
 	public UIRoot() : base()
 	{
-		position = Vector2f.zero;
+		localPosition = Vector2f.zero;
 		size = Engine.instance.windowSize;
 		Engine.instance.onWindowResized += OnWindowResized;
 	}

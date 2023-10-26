@@ -1,6 +1,7 @@
 using CliqueEngine;
-using CliqueEngine.Nodes;
 using Nodes;
+
+namespace CliqueEngine.Components;
 
 public class BehavioursService : IService
 {

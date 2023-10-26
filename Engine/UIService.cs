@@ -18,15 +18,25 @@ public class UIService : IService
 
 		RenderingService.CreateWindowAndRenderer();
 		renderer = SDL.SDL_GetRenderer(RenderingService.window);
+	
+		root = new UIRoot();
+		uiElements.Remove(root);
 	}
 
 	public void AddResource(IComponent resource)
 	{
-		uiElements.Add((UIElement) resource);
+		UIElement uiElement = (UIElement) resource;
+		uiElement.parent = root;
+		uiElements.Add(uiElement);
 	}
 
 	public void Start()
 	{
+		for (int i = 0; i < uiElements.Count; i++)
+		{
+			uiElements[i].PreStart();
+		}
+
 		for (int i = 0; i < uiElements.Count; i++)
 		{
 			uiElements[i].Start();

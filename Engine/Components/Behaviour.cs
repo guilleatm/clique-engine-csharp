@@ -1,4 +1,4 @@
-﻿namespace CliqueEngine.Nodes;
+﻿namespace CliqueEngine.Components;
 
 public class Behaviour : Component
 {

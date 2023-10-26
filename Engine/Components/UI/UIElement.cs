@@ -9,20 +9,21 @@ public abstract class UIElement : Component
 	/// <summary>
 	/// Relative position from parent, from 0 to 1.
 	/// </summary>
-	public Vector2f position;
+	public Vector2f localPosition;
+	public virtual Vector2f globalPosition => parent.globalPosition + localPosition;
 	public Vector2f size;
 
-	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(position, size);
+	public SDL.SDL_Rect rect => new SDL.SDL_Rect().From(localPosition, size);
 
 	protected List<UIElement> children = new List<UIElement>();
-	UIElement parent = null!;
+	public UIElement parent = null!;
 
 	public UIElement()
 	{
 		UIService.instance.AddResource(this);
 	}
 
-	public virtual void Start()
+	public void PreStart()
 	{
 		for (int i = 0; i < node.children.Count; i++)
 		{
@@ -34,6 +35,8 @@ public abstract class UIElement : Component
 		}
 	}
 
+	public virtual void Start() {}
+
 	/// <summary>
 	/// For the UILayouts this will store the result in the size field. The next time this function is called, it will return the previously stored value for perforance reasons.
 	/// </summary>
@@ -44,7 +47,7 @@ public abstract class UIElement : Component
 
 	protected void DrawRect(nint renderer, SDL.SDL_Color color, int offset = 0)
 	{
-		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position + Vector2f.one * offset, size - Vector2f.one * 2 * offset);
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(globalPosition + Vector2f.one * offset, size - Vector2f.one * 2 * offset);
 		SDL.SDL_Color previous = GetColor(renderer);
 		SetColor(renderer, color);
 		SDL.SDL_RenderFillRect(renderer, ref rect);
@@ -53,7 +56,7 @@ public abstract class UIElement : Component
 
 	protected void DrawRectOutline(nint renderer, SDL.SDL_Color color)
 	{
-		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(globalPosition, size);
 		SDL.SDL_Color previous = GetColor(renderer);
 		SetColor(renderer, color);
 		SDL.SDL_RenderDrawRect(renderer, ref rect);

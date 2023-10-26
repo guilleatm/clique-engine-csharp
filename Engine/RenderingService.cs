@@ -1,6 +1,8 @@
 using SDL2;
 using CliqueEngine.Nodes;
 using CliqueEngine.Extensions;
+using CliqueEngine.Components;
+
 
 namespace CliqueEngine;
 

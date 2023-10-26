@@ -1,7 +1,8 @@
 ﻿using SDL2;
 using CliqueEngine.Nodes;
-using CliqueEngine.Extensions;
+using CliqueEngine.Components;
 using Nodes;
+using CliqueEngine.UI;
 
 namespace CliqueEngine;
 
@@ -40,17 +41,19 @@ public partial class Engine
 		node.GetComponent<Renderable>().SetTexture("assets/frog_square_32x32.png");
 
 
-		var a = new UIVerticalLayoutNode();
-		var b = new UIVerticalLayoutNode();
-		var c = new UIVerticalLayoutNode();
-		var d = new UIContentNode();
-		var e = new UIContentNode();
+		var h = new UIHorizontalLayoutNode();
+		var v1 = new UIVerticalLayoutNode();
+		var v2 = new UIVerticalLayoutNode();
+		var c1 = new UIContentNode();
+		var c2 = new UIContentNode();
+		var c3 = new UIContentNode();
 
 
-		a.AddNode(b);
-		a.AddNode(c);
-		b.AddNode(d);
-		b.AddNode(e);
+		h.AddNode(v1);
+		h.AddNode(v2);
+		v1.AddNode(c1);
+		v1.AddNode(c2);
+		v2.AddNode(c3);
 
 
 

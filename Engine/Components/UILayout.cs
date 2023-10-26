@@ -8,7 +8,6 @@ public abstract class UILayout : UIElement
 {
 	public override void Start()
 	{
-		base.Start();
 		node.onNodeAdded += OnNodeAdded;
 		node.onNodeRemoved += OnNodeRemoved;
 

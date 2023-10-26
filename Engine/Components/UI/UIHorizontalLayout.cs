@@ -27,8 +27,8 @@ public class UIHorizontalLayout : UILayout
 				throw new NullReferenceException($"{nameof(UIElement)} is not {nameof(UILayout)} or {nameof(UIContent)}.");
 			}
 
-			children[i].position = new Vector2f(offset, 0);
-			offset += (int) _size.y;
+			children[i].localPosition = new Vector2f(offset, 0);
+			offset += (int) _size.x + MARGIN;
 
 		}
 	}

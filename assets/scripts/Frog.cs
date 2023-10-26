@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using CliqueEngine;
-using CliqueEngine.Nodes;
+using CliqueEngine.Components;
 
 namespace Nodes;
 

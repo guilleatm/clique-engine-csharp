@@ -27,8 +27,8 @@ public class UIVerticalLayout : UILayout
 				throw new NullReferenceException($"{nameof(UIElement)} is not {nameof(UILayout)} or {nameof(UIContent)}.");
 			}
 
-			children[i].position = new Vector2f(0, offset);
-			offset += (int) _size.y;
+			children[i].localPosition = new Vector2f(0, offset);
+			offset += (int) _size.y + MARGIN;
 
 		}
 	}
