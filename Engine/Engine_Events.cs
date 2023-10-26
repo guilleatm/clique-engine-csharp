@@ -11,6 +11,11 @@ public delegate void OnNodeEventHandler(Node node);
 
 public partial class Engine
 {
+	/// <summary>
+	/// #C TEMPORAL has to change with onWindowResized
+	/// </summary>
+	public Vector2f windowSize = new Vector2f(600, 600);
+
 
 	public delegate void OnWindowResizedEventHandler(int width, int height);
 	public event OnWindowResizedEventHandler onWindowResized;

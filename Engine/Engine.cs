@@ -30,8 +30,10 @@ public partial class Engine
 
 		RenderingService renderingService = new RenderingService();
 		BehavioursService behavioursService = new BehavioursService();
+		UIService uiService = new UIService();
 
-		services.AddRange( new List<IService>() { renderingService, behavioursService } );
+
+		services.AddRange( new List<IService>() { renderingService, behavioursService, uiService } );
 
 
 		// Start services

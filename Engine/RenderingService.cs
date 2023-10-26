@@ -13,16 +13,25 @@ public class RenderingService : IService
 	
 	public RenderingService()
 	{
-		Vector2f WINDOW_SIZE = new Vector2f(600, 600);
 		instance = this;
+
+		CreateWindowAndRenderer();
+		SDL.SDL_GetRenderer(renderer);
+
+	}
+
+	public static void CreateWindowAndRenderer()
+	{
+		// If video has been initialized return
+		if (SDL.SDL_WasInit(SDL.SDL_INIT_VIDEO) != 0) return;
 
 		SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
 
 		SDL.SDL_WindowFlags windowFlags = 	SDL.SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS |
 											SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
 
-		nint window;
-		SDL.SDL_CreateWindowAndRenderer((int) WINDOW_SIZE.x, (int) WINDOW_SIZE.y, windowFlags, out window, out renderer);
+		nint _window, _renderer;
+		SDL.SDL_CreateWindowAndRenderer((int) Engine.instance.windowSize.x, (int) Engine.instance.windowSize.y, windowFlags, out _window, out _renderer);
 
 		string file = "assets/frog_square_32x32.png";
 		nint icon = SDL_image.IMG_Load(file);
@@ -30,8 +39,8 @@ public class RenderingService : IService
 		{
 			throw new FileNotFoundException($"File: {file} not found");
 		}
-		SDL.SDL_SetWindowIcon(window, icon);
-		SDL.SDL_SetWindowTitle(window, "Clique Engine");
+		SDL.SDL_SetWindowIcon(_window, icon);
+		SDL.SDL_SetWindowTitle(_window, "Clique Engine");
 	}
 	
 	public void AddResource(IComponent resource)

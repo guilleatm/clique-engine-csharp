@@ -19,11 +19,15 @@ namespace CliqueEngine.Nodes;
 
 public class Node
 {
+	//List<Node> children = new List<Node>();
 	List<IComponent> components = new List<IComponent>();
 
-	public Node()
+	public Node( Type[] _components )
 	{
-		// Use _AddComponent()
+		for (int i = 0; i < _components.Length; i++)
+		{
+			_AddComponent(_components[i]);
+		}
 
 		// Call IComponent.Created() for component initialization
 		for (int i = 0; i < components.Count; i++)
@@ -45,6 +49,13 @@ public class Node
 		component.node = this;
 		components.Add(component);
 		return component;
+	}
+
+	void _AddComponent(Type type)
+	{
+		IComponent component = (IComponent) Activator.CreateInstance(type)!;
+		component.node = this;
+		components.Add(component);
 	}
 
 	public T GetComponent<T>() where T : IComponent

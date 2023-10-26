@@ -22,11 +22,9 @@ public class BehavioursService : IService
 	public void Start()
 	{
 
-		Node n = new Node();
-		n.AddComponent<Transform>();
-		n.AddComponent<Frog>();
-		var r = n.AddComponent<Renderable>();
-		r.SetTexture("assets/frog_square_32x32.png");
+		Node node = new Node(new [] { typeof(Transform), typeof(Renderable), typeof(Frog) });
+		
+		node.GetComponent<Renderable>().SetTexture("assets/frog_square_32x32.png");
 		for (int i = 0; i < behaviours.Count; i++)
 		{
 			behaviours[i].Start();

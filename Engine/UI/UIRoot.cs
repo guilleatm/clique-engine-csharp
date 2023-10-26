@@ -1,5 +1,23 @@
-﻿// using CliqueEngine.Extensions;
-// using SDL2;
+﻿using CliqueEngine.Extensions;
+using CliqueEngine.Nodes;
+using SDL2;
+
+namespace CliqueEngine.UI;
+
+public class UIRoot : UILayout
+{
+	public UIRoot()
+	{
+		position = Vector2f.zero;
+		size = Engine.instance.windowSize;
+		Engine.instance.onWindowResized += OnWindowResized;
+	}
+
+	void OnWindowResized (int width, int height)
+	{
+		size = new Vector2f(width, height);
+	}
+}
 
 // namespace CliqueEngine.UI;
 

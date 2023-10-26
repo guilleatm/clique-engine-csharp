@@ -1,28 +1,55 @@
-﻿using CliqueEngine.Extensions;
-using CliqueEngine.Nodes;
-using SDL2;
+﻿using SDL2;
+using CliqueEngine.Extensions;
 
 namespace CliqueEngine.UI;
 
-
 public abstract class UIElement : Component
 {
-	// Transform _transform = null!;
-	// public Transform transform
-	// {
-	// 	get
-	// 	{
-	// 		if (_transform == null)
-	// 		{
-	// 			//_transform = node.Get<Transform>();
-	// 		}
-	// 		return _transform;
-	// 	}
-	// 	set => _transform = value;
-	// }
-	// public Vector2f size;
-	// protected UIElement topUIElement = null!;
-	// public abstract Vector2f GetSize(UIElement? _topUIElement = null);
+	/// <summary>
+	/// Relative position from parent, from 0 to 1.
+	/// </summary>
+	public Vector2f position;
+	public Vector2f size;
+
+	public abstract void Draw(nint renderer);
+
+	protected void DrawRect(nint renderer, SDL.SDL_Color color)
+	{
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+		SDL.SDL_Color previous = GetColor(renderer);
+		SetColor(renderer, color);
+		SDL.SDL_RenderFillRect(renderer, ref rect);
+	    SetColor(renderer, previous);
+	}
+
+	protected void DrawRectOutline(nint renderer, SDL.SDL_Color color)
+	{
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(position, size);
+		SDL.SDL_Color previous = GetColor(renderer);
+		SetColor(renderer, color);
+		SDL.SDL_RenderDrawRect(renderer, ref rect);
+	    SetColor(renderer, previous);
+	}
+
+	protected void SetColor(nint renderer, SDL.SDL_Color color)
+	{
+	    SDL.SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+	}
+
+	protected SDL.SDL_Color GetColor(nint renderer)
+	{
+		SDL.SDL_Color color = new SDL.SDL_Color();
+	    SDL.SDL_GetRenderDrawColor(renderer, out color.r, out color.g, out color.b, out color.a);
+		return color;
+	}
+}
+
+public class UILayout : UIElement
+{
+	public override void Draw(nint renderer)
+	{
+		DrawRectOutline(renderer, Color.white);
+	}
 }
 
 // public abstract class UIElementOld
