@@ -2,7 +2,9 @@
 using CliqueEngine.Extensions;
 using CliqueEngine.Nodes;
 
-namespace CliqueEngine.UI;
+using CliqueEngine.UI;
+
+namespace CliqueEngine.Components.UI;
 
 public class UIVerticalLayout : UILayout
 {

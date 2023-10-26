@@ -2,7 +2,7 @@
 using CliqueEngine.Nodes;
 using SDL2;
 
-namespace CliqueEngine.UI;
+namespace CliqueEngine.Components.UI;
 
 public class UIRoot : UILayout
 {
@@ -16,6 +16,9 @@ public class UIRoot : UILayout
 	}
 
 	public override Vector2f GetSize() => size;
+
+	public override void UpdateLayout() {}
+
 
 	void OnWindowResized (int width, int height)
 	{

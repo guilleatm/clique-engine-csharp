@@ -1,5 +1,6 @@
 using CliqueEngine.UI;
 using CliqueEngine.Components;
+using CliqueEngine.Components.UI;
 
 
 namespace CliqueEngine.Nodes;
@@ -21,4 +22,9 @@ public class UIHorizontalLayoutNode : Node
 public class UIContentNode : Node
 {
 	public UIContentNode() : base(new [] { typeof(UIContent)} ) {}
+}
+
+public class LabelNode : Node
+{
+	public LabelNode() : base(new [] { typeof(Label)} ) {}
 }

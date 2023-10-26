@@ -2,8 +2,9 @@ using SDL2;
 using CliqueEngine.Extensions;
 using CliqueEngine.Nodes;
 
-namespace CliqueEngine.UI;
+using CliqueEngine.UI;
 
+namespace CliqueEngine.Components.UI;
 public class UIHorizontalLayout : UILayout
 {
 	const int MARGIN = 5;

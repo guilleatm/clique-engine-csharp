@@ -3,6 +3,7 @@ using CliqueEngine.Nodes;
 using CliqueEngine.Components;
 using Nodes;
 using CliqueEngine.UI;
+using CliqueEngine.Components.UI;
 
 namespace CliqueEngine;
 
@@ -44,9 +45,9 @@ public partial class Engine
 		var h = new UIHorizontalLayoutNode();
 		var v1 = new UIVerticalLayoutNode();
 		var v2 = new UIVerticalLayoutNode();
-		var c1 = new UIContentNode();
-		var c2 = new UIContentNode();
-		var c3 = new UIContentNode();
+		var c1 = new LabelNode(); c1.GetComponent<Label>().SetText("Hola");
+		var c2 = new LabelNode(); c2.GetComponent<Label>().SetText("Que");
+		var c3 = new LabelNode(); c3.GetComponent<Label>().SetText("Tal");
 
 
 		h.AddNode(v1);

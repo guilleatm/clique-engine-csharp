@@ -1,10 +1,11 @@
 ﻿using System.Net.Http.Headers;
 using CliqueEngine.Extensions;
 using SDL2;
+using CliqueEngine.UI;
 
-namespace CliqueEngine.UI;
+namespace CliqueEngine.Components.UI;
 
-class UIContent : UIElement
+public class UIContent : UIElement
 {
 	public UIContent() : base()
 	{
@@ -14,7 +15,7 @@ class UIContent : UIElement
 	public override Vector2f GetSize() => size;
 	public override void Draw(nint renderer)
 	{
-		DrawRect(renderer, Color.green, offset: 1);
+		DrawRect(renderer, Color.green);
 	}
 }
 

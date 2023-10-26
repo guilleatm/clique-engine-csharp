@@ -2,6 +2,9 @@ using CliqueEngine;
 using CliqueEngine.UI;
 using CliqueEngine.Extensions;
 using SDL2;
+using CliqueEngine.Components.UI;
+
+namespace CliqueEngine.UI;
 
 public class UIService : IService
 {
@@ -12,6 +15,9 @@ public class UIService : IService
 	nint renderer;
 	UIRoot root;
 
+	nint font;
+
+
 	public UIService()
 	{
 		instance = this;
@@ -19,6 +25,9 @@ public class UIService : IService
 		RenderingService.CreateWindowAndRenderer();
 		renderer = SDL.SDL_GetRenderer(RenderingService.window);
 	
+		SDL_ttf.TTF_Init();
+		font = SDL_ttf.TTF_OpenFont("assets/fonts/Hack-Regular.ttf", 20);
+
 		root = new UIRoot();
 		uiElements.Remove(root);
 	}
@@ -52,5 +61,14 @@ public class UIService : IService
 
 		SDL.SDL_RenderPresent(renderer);
 		SDL.SDL_RenderClear(renderer);
+	}
+
+	public nint CreateTextTexture(string text)
+	{
+		nint surface = SDL_ttf.TTF_RenderText_Solid(font, text, Color.white);
+		nint texture = SDL.SDL_CreateTextureFromSurface(renderer, surface);
+		SDL.SDL_FreeSurface(surface);
+
+		return texture;
 	}
 }

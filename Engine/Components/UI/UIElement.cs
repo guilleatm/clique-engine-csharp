@@ -2,13 +2,11 @@
 using CliqueEngine.Extensions;
 using CliqueEngine.Nodes;
 
-namespace CliqueEngine.UI;
+using CliqueEngine.UI;
 
+namespace CliqueEngine.Components.UI;
 public abstract class UIElement : Component
 {
-	/// <summary>
-	/// Relative position from parent, from 0 to 1.
-	/// </summary>
 	public Vector2f localPosition;
 	public virtual Vector2f globalPosition => parent.globalPosition + localPosition;
 	public Vector2f size;
@@ -38,7 +36,7 @@ public abstract class UIElement : Component
 	public virtual void Start() {}
 
 	/// <summary>
-	/// For the UILayouts this will store the result in the size field. The next time this function is called, it will return the previously stored value for perforance reasons.
+	/// This method traverse all UI tree.
 	/// </summary>
 	/// <returns>The size of the UIElement</returns>
 	public virtual Vector2f GetSize() => throw new InvalidOperationException($"{nameof(GetSize)} of {GetType()} is not overwritten.");

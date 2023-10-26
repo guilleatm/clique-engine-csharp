@@ -1,8 +1,9 @@
 using SDL2;
 using CliqueEngine.Extensions;
 using CliqueEngine.Nodes;
+using CliqueEngine.UI;
 
-namespace CliqueEngine.UI;
+namespace CliqueEngine.Components.UI;
 
 public abstract class UILayout : UIElement
 {
@@ -11,24 +12,31 @@ public abstract class UILayout : UIElement
 		node.onNodeAdded += OnNodeAdded;
 		node.onNodeRemoved += OnNodeRemoved;
 
-		PrepareChildren();
-		size = GetSize();
+		UpdateLayout();
 	}
 
 	public virtual void PrepareChildren() {}
 
 	public override Vector2f GetSize()
 	{
-		if (size != Vector2f.zero) return size;
-
 		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.zero);
 		for (int i = 0; i < children.Count; i++)
 		{
 			rect = rect.Overlap(children[i].rect);
 		}
 
-		size = new Vector2f(rect.w, rect.h);
-		return size;
+		return new Vector2f(rect.w, rect.h);
+	}
+
+	public virtual void UpdateLayout()
+	{
+		PrepareChildren();
+		size = GetSize();
+
+		if (parent is UILayout uiLayout)
+		{
+			uiLayout.UpdateLayout();
+		}
 	}
 
 	void OnNodeAdded(Node node)
