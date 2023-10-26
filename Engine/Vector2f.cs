@@ -41,6 +41,16 @@ public struct Vector2f
 		return new Vector2f(Math.Abs(x), Math.Abs(y));
 	}
 
+	public static bool operator ==(Vector2f v1, Vector2f v2)
+	{
+		return v1.x == v2.x && v1.y == v2.y;
+	}
+
+	public static bool operator !=(Vector2f v1, Vector2f v2)
+	{
+		return !(v1 == v2);
+	}
+
 	public static Vector2f operator +(Vector2f v1, Vector2f v2)
 	{
 		return new Vector2f(v1.x + v2.x, v1.y + v2.y);

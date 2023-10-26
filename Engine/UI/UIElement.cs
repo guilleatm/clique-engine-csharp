@@ -34,6 +34,10 @@ public abstract class UIElement : Component
 		}
 	}
 
+	/// <summary>
+	/// For the UILayouts this will store the result in the size field. The next time this function is called, it will return the previously stored value for perforance reasons.
+	/// </summary>
+	/// <returns>The size of the UIElement</returns>
 	public virtual Vector2f GetSize() => throw new InvalidOperationException($"{nameof(GetSize)} of {GetType()} is not overwritten.");
 
 	public virtual void Draw(nint renderer) {}

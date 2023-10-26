@@ -1,10 +1,10 @@
-﻿using SDL2;
+using SDL2;
 using CliqueEngine.Extensions;
 using CliqueEngine.Nodes;
 
 namespace CliqueEngine.UI;
 
-public class UIVerticalLayout : UILayout
+public class UIHorizontalLayout : UILayout
 {
 	const int MARGIN = 5;
 	public override void PrepareChildren()
@@ -27,7 +27,7 @@ public class UIVerticalLayout : UILayout
 				throw new NullReferenceException($"{nameof(UIElement)} is not {nameof(UILayout)} or {nameof(UIContent)}.");
 			}
 
-			children[i].position = new Vector2f(0, offset);
+			children[i].position = new Vector2f(offset, 0);
 			offset += (int) _size.y;
 
 		}

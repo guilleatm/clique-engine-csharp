@@ -18,6 +18,20 @@ public abstract class UILayout : UIElement
 
 	public virtual void PrepareChildren() {}
 
+	public override Vector2f GetSize()
+	{
+		if (size != Vector2f.zero) return size;
+
+		SDL.SDL_Rect rect = new SDL.SDL_Rect().From(Vector2f.zero, Vector2f.zero);
+		for (int i = 0; i < children.Count; i++)
+		{
+			rect = rect.Overlap(children[i].rect);
+		}
+
+		size = new Vector2f(rect.w, rect.h);
+		return size;
+	}
+
 	void OnNodeAdded(Node node)
 	{
 		throw new NotImplementedException();
