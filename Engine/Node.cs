@@ -5,21 +5,37 @@ using System.ComponentModel.Design.Serialization;
 
 namespace CliqueEngine.Nodes;
 
-// public interface IParentable
-// {
-// 	public IParentable parent { get; set; }
-// 	public List<IParentable> children { get; set; }
-
-// 	public void AddChild(IParentable child)
-// 	{
-// 		child.parent = this;
-// 		children.Add(child);
-// 	}
-// }
-
-public class Node
+public partial class Node
 {
-	//List<Node> children = new List<Node>();
+	public delegate void OnNodeEventHandler(Node node);
+	public event OnNodeEventHandler onNodeAdded;
+	public event OnNodeEventHandler onNodeRemoved;
+
+	public List<Node> children = new List<Node>();
+	public Node parent;
+	public void AddNode(Node node)
+	{
+		children.Add(node);
+		node.parent = this;
+
+		onNodeAdded?.Invoke(node);
+	}
+
+	public void RemoveNode(Node node)
+	{
+		children.Remove(node);
+		node.parent = null!;
+
+		onNodeRemoved?.Invoke(node);
+	}
+
+}
+
+
+
+
+public partial class Node
+{
 	List<IComponent> components = new List<IComponent>();
 
 	public Node( Type[] _components )
@@ -62,11 +78,11 @@ public class Node
 	{
 		return (T) components.Find( d => d is T )!;
 	}
-	// public bool TryGetComponent<T>(out T component) where T : IComponent
-	// {
-	// 	component = (components.Find( d => d is T ) as T)!;
-	// 	return component != null;
-	// }
+	public bool TryGetComponent<T>(out T component) where T : Component
+	{
+		component = (components.Find( d => d is T ) as T)!;
+		return component != null;
+	}
 
 
 
@@ -134,12 +150,6 @@ public class Node
 
 }
 
-// public abstract class Component
-// {
-// 	public Node node = null!;
-// 	public virtual void Start() {}
-// 	public virtual void Update() {}
-// }
 
 
 

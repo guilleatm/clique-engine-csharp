@@ -1,5 +1,6 @@
 ﻿using SDL2;
 using CliqueEngine.Extensions;
+using CliqueEngine.Nodes;
 
 namespace CliqueEngine.UI;
 
@@ -10,6 +11,21 @@ public abstract class UIElement : Component
 	/// </summary>
 	public Vector2f position;
 	public Vector2f size;
+
+	List<UIElement> children = new List<UIElement>();
+	UIElement parent = null!;
+
+	public virtual void Start()
+	{
+		for (int i = 0; i < node.children.Count; i++)
+		{
+			if ( node.children[i].TryGetComponent<UIElement>(out UIElement uiElement) )
+			{
+				uiElement.parent = this;
+				children.Add(uiElement);
+			}
+		}
+	}
 
 	public abstract void Draw(nint renderer);
 
@@ -46,6 +62,24 @@ public abstract class UIElement : Component
 
 public class UILayout : UIElement
 {
+	public override void Start()
+	{
+		base.Start();
+		node.onNodeAdded += OnNodeAdded;
+		node.onNodeRemoved += OnNodeRemoved;
+
+	}
+
+	void OnNodeAdded(Node node)
+	{
+		throw new NotImplementedException();
+	}
+
+	void OnNodeRemoved(Node node)
+	{
+		throw new NotImplementedException();
+	}
+
 	public override void Draw(nint renderer)
 	{
 		DrawRectOutline(renderer, Color.white);
